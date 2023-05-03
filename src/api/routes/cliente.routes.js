@@ -1,11 +1,11 @@
-const router = require('express').Router()
+const router = require('express').Router();
 
-const { getCliente, getClienteOne } = require('../controllers/cliente.controller');
+const { getClients, getOneClient } = require('../controllers/cliente.controller');
 
-router.get('/', getCliente);
-router.get('/:id', getClienteOne);
+router.get('/', getClients);
+router.get('/:id', getOneClient);
 // router.post();
 // router.put();
 // router.delete();
 
-module.exports = router
+module.exports = router;

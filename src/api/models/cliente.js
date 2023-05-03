@@ -1,26 +1,22 @@
-const { DataTypes } = require('sequelize')
-const db = require("../../config/db")
+const { DataTypes } = require('sequelize');
+const db = require("../../config/db");
 
-const cliente = db.define('Clientes', {
-    Documento: {
+const Cliente = db.define('clientes', {
+    documento: {
         type: DataTypes.INTEGER
     },
-    DuenoPoliza: {
+    duenoPoliza: {
         type: DataTypes.STRING
     },
-    Id: {
-        type: DataTypes.SMALLINT,
-        primaryKey: true
-    },
-    Nombre: {
+    nombre: {
         type: DataTypes.STRING
     },
-    RazonSocial: {
+    razonSocial: {
         type: DataTypes.STRING
     },
-    Telefono: {
+    telefono: {
         type: DataTypes.INTEGER
     }
-})
+});
 
-module.exports = cliente;
+module.exports = Cliente;

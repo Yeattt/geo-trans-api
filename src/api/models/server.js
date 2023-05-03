@@ -11,7 +11,7 @@ class Server {
         this.port = process.env.PORT || '3000';
         this.apiRoutes = {
             auth: '/api/auth',
-            cliente: '/api/cliente'
+            clientes: '/api/clientes'
         }
 
         this.middlewares();
@@ -35,7 +35,7 @@ class Server {
 
     routes() {
         this.app.use(this.apiRoutes.auth, authRoutes);
-        this.app.use(this.apiRoutes.cliente, clientRoutes)
+        this.app.use(this.apiRoutes.clientes, clientRoutes)
     }
 
     listen() {
