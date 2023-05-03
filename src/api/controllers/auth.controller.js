@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
-const signUp = async(req, res) => {
+const signUp = async (req, res) => {
     const { body } = req;
 
     try {
@@ -39,11 +39,50 @@ const signUp = async(req, res) => {
     }
 }
 
-// const signIn = async (req, res) => {
+const signIn = async (req, res) => {
+    const { email, password } = req.body;
 
-// }
+    try {
+        const user = await User.findOne({
+            where: {
+                email
+            }
+        });
+
+        if (!user) {
+            return res.status(400).json({
+                ok: false,
+                err: 'Incorrect credentials'
+            });
+        }
+
+        const matchPassword = bcrypt.compareSync(password, user.password);
+
+        if (!matchPassword) {
+            return res.status(400).json({
+                ok: false,
+                err: 'Incorrect credentials'
+            });
+        }
+
+        const token = await jwt.sign({
+            email: user.email    
+        }, process.env.SECRET_KEY, { expiresIn: '24h' });
+
+        res.status(200).json({
+            ok: true,
+            token
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            err: 'Internal server error'
+        });
+    }
+}
 
 module.exports = {
     signUp,
-    // signIn
+    signIn
 }
