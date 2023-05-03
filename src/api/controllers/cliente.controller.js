@@ -1,21 +1,36 @@
 const Cliente = require('../models/cliente')
 
-const getCliente =async (req, res) => {
-    const allClientes =await Cliente.find();
+const getCliente = async(req, res) => {
+    const allClientes = await Cliente.findAll({ attributes: ['Documento', 'DuenoPoliza', 'Nombre', 'RazonSocial', 'Telefono'] })
+        .then(clientes => {
+            console.log(clientes.toJSON())
+        })
+        .catch(err => {
+            console.log(err)
+        })
 
     res.json({
-        "ok" : 200,
+        "ok": 200,
+        msg: "getCliente",
         allClientes
     })
 }
 
 
-const GetCliente = async (req , res) => {
-    const id = req.params.id
-    const one_Cliente = await Cliente.findById(id)
+const getClienteOne = async(req, res) => {
+    const { id } = req.params;
+    const oneCliente = await Cliente.findByPk(id)
+
+    if (!oneCliente) {
+        return res.status(404).json({
+            ok: false,
+            msg: `cliente con el id ${id} no existe.`
+        })
+    }
 
     res.json({
-        one_Cliente
+        msg: "getClienteOne",
+        oneCliente
     })
 }
 
@@ -27,7 +42,7 @@ const GetCliente = async (req , res) => {
 //     const salt = contraseña.genSaltSync();
 
 //     Clientes.Contraseña = contraseña.hashSync(Contraseña, salt);
-    
+
 //     Clientes.save();
 
 //     res.json({
@@ -46,7 +61,7 @@ const GetCliente = async (req , res) => {
 //     const salt = contraseña.genSaltSync();
 
 //     ClienteActualizado.Contraseña = contraseña.hashSync(Contraseña, salt);
-    
+
 //     ClienteActualizado.save();
 
 //     res.json({
@@ -55,20 +70,20 @@ const GetCliente = async (req , res) => {
 //     })
 // }
 
-const deleteCliente =async (req, res) => {
+const deleteCliente = async(req, res) => {
     const id_cliente = req.params.id
-    // // const eliminarCliente =await Cliente.findByIdAndDelete(id_cliente);
+        // // const eliminarCliente =await Cliente.findByIdAndDelete(id_cliente);
     const eliminarCliente = await Cliente.destroy(id_cliente)
 
     res.json({
-        "msg" : "cliente eliminado"
+        "msg": "cliente eliminado"
     })
 }
 
 module.exports = {
     getCliente,
-    postCliente,
-    putCliente,
-    deleteCliente,
-    GetCliente
+    getClienteOne,
+    // postCliente,
+    // putCliente,
+    // deleteCliente,
 }
