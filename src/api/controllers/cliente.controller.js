@@ -52,7 +52,7 @@ const getOneClient = async (req, res) => {
 }
 
 const postClient = async (req, res) => {
-    const { body } = req.params;
+    const { body } = req;
 
     try {
         const clientExists = await Cliente.findOne({
@@ -61,7 +61,7 @@ const postClient = async (req, res) => {
             }
         });
 
-        if (!clientExists) {
+        if (clientExists) {
             return res.status(400).json({
                 ok: false,
                 message: "Client already registered"

@@ -35,7 +35,7 @@ class Server {
 
     routes() {
         this.app.use(this.apiRoutes.auth, authRoutes);
-        this.app.use(this.apiRoutes.clientes, clientRoutes)
+        this.app.use(this.apiRoutes.clientes, clientRoutes);
     }
 
     listen() {
