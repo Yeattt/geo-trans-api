@@ -4,6 +4,7 @@ const db = require('../../config/db');
 
 const authRoutes = require('../routes/auth.routes');
 const clientRoutes = require('../routes/cliente.routes')
+const userRoutes = require('../routes/usuario.routes')
 
 class Server {
     constructor() {
@@ -11,7 +12,8 @@ class Server {
         this.port = process.env.PORT || '3000';
         this.apiRoutes = {
             auth: '/api/auth',
-            clientes: '/api/clientes'
+            clientes: '/api/clientes',
+            usuarios: '/api/usuarios',
         }
 
         this.middlewares();
@@ -36,6 +38,7 @@ class Server {
     routes() {
         this.app.use(this.apiRoutes.auth, authRoutes);
         this.app.use(this.apiRoutes.clientes, clientRoutes);
+        this.app.use(this.apiRoutes.usuarios, userRoutes);
     }
 
     listen() {
