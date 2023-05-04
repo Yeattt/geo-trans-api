@@ -1,6 +1,6 @@
 const Cliente = require('../models/cliente')
 
-const getClients = async (req, res) => {
+const getClients = async(req, res) => {
     try {
         const clientes = await Cliente.findAll();
 
@@ -25,9 +25,9 @@ const getClients = async (req, res) => {
 }
 
 
-const getOneClient = async (req, res) => {
+const getOneClient = async(req, res) => {
     const { id } = req.params;
-    
+
     try {
         const cliente = await Cliente.findByPk(id);
 
@@ -51,56 +51,96 @@ const getOneClient = async (req, res) => {
     }
 }
 
-// const postCliente = async (req, res) => {
-//     const {identificacion ,Nombre, Apellido, Direccion, Numero, Estado, Contraseña, Email }= req.body;
+const postClient = async(req, res) => {
+    const { body } = req.params;
+    try {
+        const existeDocumento = await Cliente.findOne({
+            where: {
+                documento: body.Documento
+            }
+        });
 
-//     const Clientes = await new Cliente({identificacion ,Nombre, Apellido, Direccion, Numero, Estado, Contraseña, Email });
+        if (existeDocumento) {
+            return res.status(400).json({
+                ok: false,
+                msg: "Documento ya registrado"
+            });
+        }
 
-//     const salt = contraseña.genSaltSync();
+        const cliente = await Cliente.create(body);
+        await cliente.save();
 
-//     Clientes.Contraseña = contraseña.hashSync(Contraseña, salt);
+        res.status(200).json({
+            cliente
+        });
 
-//     Clientes.save();
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: "Error del servidor"
+        });
+    }
+}
 
-//     res.json({
-//         "ok" : 200,
-//         Clientes
-//     })
-// }
+const putClient = async(req, res) => {
+    const { id } = req.params
+    const { body } = req;
 
-// const putCliente =async (req, res) => {
-//     const id_Cliente = req.params.id;
+    try {
+        const cliente = await Cliente.findByPk(id);
+        if (!cliente) {
+            return res.status(400).json({
+                ok: false,
+                msg: `Cliente con id ${id} no existe`
+            });
+        }
 
-//     const {identificacion ,Nombre, Apellido, Direccion, Numero, Estado, Contraseña, Email }= req.body;
+        await cliente.update(body);
+        res.status(200).json({
+            cliente
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: "Error del servidor"
+        })
+    }
+}
 
-//     const ClienteActualizado = await Cliente.findByIdAndUpdate(id_Cliente, {identificacion ,Nombre, Apellido, Direccion, Numero, Estado, Contraseña, Email })
+const deleteClient = async(req, res) => {
+    const { id } = req.params;
 
-//     const salt = contraseña.genSaltSync();
+    try {
+        const cliente = await Cliente.findByPk(id)
 
-//     ClienteActualizado.Contraseña = contraseña.hashSync(Contraseña, salt);
+        if (!cliente) {
+            return res.status(400).json({
+                ok: false,
+                msg: `Cliente con id ${id} no existe`
+            })
+        }
 
-//     ClienteActualizado.save();
+        await Cliente.destroy(cliente);
+        res.status(200).json({
+            ok: true,
+            msg: "Cliente eliminado"
+        })
 
-//     res.json({
-//         "ok" : 200,
-//         ClienteActualizado
-//     })
-// }
-
-const deleteCliente = async (req, res) => {
-    const id_cliente = req.params.id
-    // const eliminarCliente =await Cliente.findByIdAndDelete(id_cliente);
-    const eliminarCliente = await Cliente.destroy(id_cliente)
-
-    res.json({
-        "msg": "cliente eliminado"
-    })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: "Error del servidor"
+        })
+    }
 }
 
 module.exports = {
     getClients,
     getOneClient,
-    // postCliente,
-    // putCliente,
-    // deleteCliente,
+    postClient,
+    putClient,
+    deleteClient
 }
