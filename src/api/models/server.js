@@ -29,7 +29,7 @@ class Server {
     async dbConnection() {
         try {
             await db.authenticate();
-            await db.sync();
+            await db.sync({ force: true });
             console.log('Successful connection to the database');
         } catch (error) {
             throw new Error(error);
