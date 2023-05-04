@@ -22,7 +22,7 @@ const signUp = async (req, res) => {
 
         const user = await User.create(body);
 
-        user.password = bcrypt.hashSync(body.password, 10);
+        user.contrasena = bcrypt.hashSync(body.contrasena, 10);
 
         await user.save();
 
@@ -40,7 +40,7 @@ const signUp = async (req, res) => {
 }
 
 const signIn = async (req, res) => {
-    const { email, password } = req.body;
+    const { email, contrasena } = req.body;
 
     try {
         const user = await User.findOne({
@@ -56,7 +56,7 @@ const signIn = async (req, res) => {
             });
         }
 
-        const matchPassword = bcrypt.compareSync(password, user.password);
+        const matchPassword = bcrypt.compareSync(contrasena, user.contrasena);
 
         if (!matchPassword) {
             return res.status(400).json({
@@ -65,9 +65,7 @@ const signIn = async (req, res) => {
             });
         }
 
-        const token = await jwt.sign({
-            email: user.email    
-        }, process.env.SECRET_KEY, { expiresIn: '24h' });
+        const token = await generateJWT();
 
         res.status(200).json({
             ok: true,
