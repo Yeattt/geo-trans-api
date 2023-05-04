@@ -1,6 +1,6 @@
 const Cliente = require('../models/cliente')
 
-const getClients = async(req, res) => {
+const getClients = async (req, res) => {
     try {
         const clientes = await Cliente.findAll();
 
@@ -25,7 +25,7 @@ const getClients = async(req, res) => {
 }
 
 
-const getOneClient = async(req, res) => {
+const getOneClient = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -51,19 +51,20 @@ const getOneClient = async(req, res) => {
     }
 }
 
-const postClient = async(req, res) => {
+const postClient = async (req, res) => {
     const { body } = req.params;
+
     try {
-        const existeDocumento = await Cliente.findOne({
+        const clientExists = await Cliente.findOne({
             where: {
-                documento: body.Documento
+                documento: body.documento
             }
         });
 
-        if (existeDocumento) {
+        if (!clientExists) {
             return res.status(400).json({
                 ok: false,
-                msg: "Documento ya registrado"
+                message: "Client already registered"
             });
         }
 
@@ -71,45 +72,48 @@ const postClient = async(req, res) => {
         await cliente.save();
 
         res.status(200).json({
-            cliente
+            ok: true,
+            message: 'Client created successfully'
         });
-
     } catch (error) {
         console.log(error);
         res.status(500).json({
             ok: false,
-            msg: "Error del servidor"
+            message: "Internal server error"
         });
     }
 }
 
-const putClient = async(req, res) => {
-    const { id } = req.params
+const putClient = async (req, res) => {
+    const { id } = req.params;
     const { body } = req;
 
     try {
         const cliente = await Cliente.findByPk(id);
+
         if (!cliente) {
             return res.status(400).json({
                 ok: false,
-                msg: `Cliente con id ${id} no existe`
+                message: `Client with id ${id} not found`
             });
         }
 
         await cliente.update(body);
+
         res.status(200).json({
-            cliente
-        })
+            ok: true,
+            message: 'Client updated successfully'
+        });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            msg: "Error del servidor"
-        })
+            message: "Internal server error"
+        });
     }
 }
 
-const deleteClient = async(req, res) => {
+const deleteClient = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -118,21 +122,21 @@ const deleteClient = async(req, res) => {
         if (!cliente) {
             return res.status(400).json({
                 ok: false,
-                msg: `Cliente con id ${id} no existe`
+                msg: `Client with id ${id} not found`
             })
         }
 
         await Cliente.destroy(cliente);
+        
         res.status(200).json({
             ok: true,
-            msg: "Cliente eliminado"
-        })
-
+            msg: "Client deleted successfully"
+        });
     } catch (error) {
         console.log(error)
         res.status(500).json({
             ok: false,
-            msg: "Error del servidor"
+            msg: "Internal server error"
         })
     }
 }

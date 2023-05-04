@@ -4,8 +4,8 @@ const { getClients, getOneClient, postClient, putClient, deleteClient } = requir
 
 router.get('/', getClients);
 router.get('/:id', getOneClient);
-router.post('/', postClient);
-router.put('/:id', putClient);
-router.delete('/:id', deleteClient);
+router.post('/create', postClient);
+router.put('/update/:id', putClient);
+router.delete('/delete/:id', deleteClient);
 
 module.exports = router;
