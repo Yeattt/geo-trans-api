@@ -22,13 +22,16 @@ const Usuario = db.define('usuarios', {
    },
    contrasena: {
       type: DataTypes.STRING
+   },
+   rolId: {
+      type: DataTypes.INTEGER,
+      references: {
+         model: Rol,
+         key: 'id'
+      }
    }
 });
 
-Usuario.hasOne(Rol, {
-   foreignKey: 'rolId',
-   sourceKey: 'id'
-});
-Rol.belongsTo(Usuario, { foreignKey: 'rolId', targetKey: 'id' });
+Usuario.belongsTo(Rol, { foreignKey: 'rolId', targetKey: 'id' });
 
 module.exports = Usuario;
