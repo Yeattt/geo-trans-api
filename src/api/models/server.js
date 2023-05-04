@@ -4,7 +4,7 @@ const db = require('../../config/db');
 
 const authRoutes = require('../routes/auth.routes');
 const clientRoutes = require('../routes/cliente.routes')
-const userRoutes = require('../routes/usuario.routes')
+const userRoutes = require('../routes/usuario.routes');
 
 class Server {
     constructor() {
@@ -29,6 +29,7 @@ class Server {
     async dbConnection() {
         try {
             await db.authenticate();
+            await db.sync();
             console.log('Successful connection to the database');
         } catch (error) {
             throw new Error(error);
