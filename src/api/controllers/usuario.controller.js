@@ -1,12 +1,13 @@
 const bcrypt = require('bcryptjs');
 const Usuario = require('../models/usuario');
+const Rol = require('../models/rol');
 
 const getUsers = async (req, res) => {
    try {
       const users = await Usuario.findAll();
-      
+
       if (!users) {
-         return res.status(400).json({
+         return res.status(404).json({
             ok: false,
             err: 'There are no registered users yet'
          });
@@ -27,9 +28,9 @@ const getUsers = async (req, res) => {
 
 const getOneUser = async (req, res) => {
    const { id } = req.params;
-   
+
    try {
-      
+
    } catch (error) {
       console.log(error);
       return res.status(500).json({
@@ -40,8 +41,41 @@ const getOneUser = async (req, res) => {
 }
 
 const createUser = async (req, res) => {
+   const { body } = req;
+
    try {
-      
+      const userExists = await User.findOne({
+         where: {
+            email: body.email
+         }
+      });
+
+      if (userExists) {
+         return res.status(400).json({
+            ok: false,
+            err: 'User already registered'
+         });
+      }
+
+      const rolExists = await Rol.findByPk(body.rolId);
+
+      if (!rolExists) {
+         return res.status(404).json({
+            ok: false,
+            err: 'Rol not found'
+         });
+      }
+
+      const user = await User.create(body);
+
+      user.contrasena = bcrypt.hashSync(body.contrasena, 10);
+
+      await user.save();
+
+      res.status(200).json({
+         ok: true,
+         message: 'User created successfully'
+      });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
@@ -53,7 +87,7 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
    try {
-      
+
    } catch (error) {
       console.log(error);
       return res.status(500).json({
