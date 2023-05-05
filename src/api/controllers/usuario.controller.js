@@ -51,7 +51,7 @@ const createUser = async (req, res) => {
       });
 
       if (userExists) {
-         return res.status(400).json({
+         return res.status(404).json({
             ok: false,
             err: 'User already registered'
          });
