@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 const db = require('../../config/db');
-const Rol = require('./rol');
+const Rol = require('./role');
 
-const Usuario = db.define('usuarios', {
+const User = db.define('usuarios', {
    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
@@ -32,6 +32,6 @@ const Usuario = db.define('usuarios', {
    }
 });
 
-Usuario.belongsTo(Rol, { foreignKey: 'rolId', targetKey: 'id' });
+User.belongsTo(Role, { foreignKey: 'rolId', targetKey: 'id' });
 
-module.exports = Usuario;
+module.exports = User;

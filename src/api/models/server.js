@@ -3,8 +3,8 @@ const cors = require('cors');
 const db = require('../../config/db');
 
 const authRoutes = require('../routes/auth.routes');
-const clientRoutes = require('../routes/cliente.routes')
-const userRoutes = require('../routes/usuario.routes');
+const clientRoutes = require('../routes/client.routes')
+const userRoutes = require('../routes/user.routes');
 
 class Server {
     constructor() {
@@ -12,8 +12,8 @@ class Server {
         this.port = process.env.PORT || '3000';
         this.apiRoutes = {
             auth: '/api/auth',
-            clientes: '/api/clientes',
-            usuarios: '/api/usuarios',
+            clients: '/api/clients',
+            users: '/api/users',
         }
 
         this.middlewares();
@@ -38,8 +38,8 @@ class Server {
 
     routes() {
         this.app.use(this.apiRoutes.auth, authRoutes);
-        this.app.use(this.apiRoutes.clientes, clientRoutes);
-        this.app.use(this.apiRoutes.usuarios, userRoutes);
+        this.app.use(this.apiRoutes.clients, clientRoutes);
+        this.app.use(this.apiRoutes.users, userRoutes);
     }
 
     listen() {

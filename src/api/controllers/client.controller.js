@@ -1,10 +1,10 @@
-const Cliente = require('../models/cliente')
+const Client = require('../models/client')
 
 const getClients = async(req, res) => {
     try {
-        const clientes = await Cliente.findAll();
+        const client = await Client.findAll();
 
-        if (!clientes) {
+        if (!client) {
             return res.status(404).json({
                 ok: false,
                 err: 'There are no clients registered on this moment'
@@ -13,7 +13,7 @@ const getClients = async(req, res) => {
 
         res.status(200).json({
             ok: true,
-            clientes
+            client
         });
     } catch (error) {
         console.log(error);
@@ -29,9 +29,9 @@ const getOneClient = async(req, res) => {
     const { id } = req.params;
 
     try {
-        const cliente = await Cliente.findByPk(id);
+        const client = await Client.findByPk(id);
 
-        if (!cliente) {
+        if (!client) {
             return res.status(404).json({
                 ok: false,
                 err: 'Client not found'
@@ -40,7 +40,7 @@ const getOneClient = async(req, res) => {
 
         res.status(200).json({
             ok: true,
-            cliente
+            client
         });
     } catch (error) {
         console.log(error);
@@ -55,7 +55,7 @@ const postClient = async(req, res) => {
     const { body } = req;
 
     try {
-        const clientExists = await Cliente.findOne({
+        const clientExists = await Client.findOne({
             where: {
                 documento: body.documento
             }
@@ -68,8 +68,8 @@ const postClient = async(req, res) => {
             });
         }
 
-        const cliente = await Cliente.create(body);
-        await cliente.save();
+        const client = await Client.create(body);
+        await client.save();
 
         res.status(200).json({
             ok: true,
@@ -89,16 +89,16 @@ const putClient = async(req, res) => {
     const { body } = req;
 
     try {
-        const cliente = await Cliente.findByPk(id);
+        const client = await Client.findByPk(id);
 
-        if (!cliente) {
+        if (!client) {
             return res.status(400).json({
                 ok: false,
                 message: `Client with id ${id} not found`
             });
         }
 
-        await cliente.update(body);
+        await client.update(body);
 
         res.status(200).json({
             ok: true,
@@ -117,16 +117,16 @@ const deleteClient = async(req, res) => {
     const { id } = req.params;
 
     try {
-        const cliente = await Cliente.findByPk(id)
+        const client = await Client.findByPk(id);
 
-        if (!cliente) {
+        if (!client) {
             return res.status(400).json({
                 ok: false,
                 msg: `Client with id ${id} not found`
-            })
+            });
         }
 
-        await cliente.destroy(id);
+        await Client.destroy(id);
 
         res.status(200).json({
             ok: true,

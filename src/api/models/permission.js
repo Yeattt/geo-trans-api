@@ -1,10 +1,10 @@
 const { DataTypes } = require('sequelize');
 const db = require('../../config/db');
 
-const Permiso = db.define('permisos', {
+const Permission = db.define('permisos', {
    nombre: {
       type: DataTypes.STRING
    }
 });
 
-module.exports = Permiso;
+module.exports = Permission;

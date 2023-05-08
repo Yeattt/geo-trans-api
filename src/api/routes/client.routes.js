@@ -1,6 +1,6 @@
 const router = require('express').Router();
 
-const { getClients, getOneClient, postClient, putClient, deleteClient } = require('../controllers/cliente.controller');
+const { getClients, getOneClient, postClient, putClient, deleteClient } = require('../controllers/client.controller');
 
 router.get('/', getClients);
 router.get('/:id', getOneClient);
