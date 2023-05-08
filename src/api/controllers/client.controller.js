@@ -1,6 +1,6 @@
 const Client = require('../models/client')
 
-const getClients = async(req, res) => {
+const getClients = async (req, res) => {
     try {
         const client = await Client.findAll();
 
@@ -25,7 +25,7 @@ const getClients = async(req, res) => {
 }
 
 
-const getOneClient = async(req, res) => {
+const getOneClient = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -51,7 +51,7 @@ const getOneClient = async(req, res) => {
     }
 }
 
-const postClient = async(req, res) => {
+const postClient = async (req, res) => {
     const { body } = req;
 
     try {
@@ -84,7 +84,7 @@ const postClient = async(req, res) => {
     }
 }
 
-const putClient = async(req, res) => {
+const putClient = async (req, res) => {
     const { id } = req.params;
     const { body } = req;
 
@@ -113,7 +113,7 @@ const putClient = async(req, res) => {
     }
 }
 
-const deleteClient = async(req, res) => {
+const deleteClient = async (req, res) => {
     const { id } = req.params;
 
     try {
