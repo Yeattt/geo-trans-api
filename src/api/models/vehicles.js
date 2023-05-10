@@ -1,35 +1,35 @@
-const {DataTypes}=require('sequelize')
-const db=require('../../config/db')
+const { DataTypes } = require('sequelize')
+const db = require('../../config/db')
 
-const Vehicle= db.define('vehicles',{
-    id:{
+const Vehicle = db.define('vehicles', {
+    id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    TipoCamion: {
+    tipoCamion: {
         type: DataTypes.STRING
     },
-    Modelo: {
+    modelo: {
         type: DataTypes.STRING
     },
-    Marca: {
+    marca: {
         type: DataTypes.STRING
     },
-    Placa: {
+    placa: {
         type: DataTypes.STRING
     },
-    PlacaSemiremolque: {
+    placaSemiremolque: {
         type: DataTypes.STRING
     },
-    TarjetaPropiedad: {
+    parjetaPropiedad: {
         type: DataTypes.STRING
     },
-    Tecnomecanica: {
+    tecnomecanica: {
         type: DataTypes.STRING
     },
-    Soat: {
+    soat: {
         type: DataTypes.STRING
     },
 })
-module.exports=Vehicle;
+module.exports = Vehicle;
