@@ -1,9 +1,9 @@
 const bcrypt = require('bcryptjs');
 const { generateJWT } = require('../helpers/generate-jwt');
 
-const User = require('../models/usuario');
+const User = require('../models/user');
 
-const signUp = async (req, res) => {
+const signUp = async(req, res) => {
     const { body } = req;
 
     try {
@@ -39,7 +39,7 @@ const signUp = async (req, res) => {
     }
 }
 
-const signIn = async (req, res) => {
+const signIn = async(req, res) => {
     const { email, contrasena } = req.body;
 
     try {

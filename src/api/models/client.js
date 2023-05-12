@@ -10,9 +10,6 @@ const Client = db.define('clientes', {
     documento: {
         type: DataTypes.INTEGER
     },
-    duenoPoliza: {
-        type: DataTypes.STRING
-    },
     nombre: {
         type: DataTypes.STRING
     },

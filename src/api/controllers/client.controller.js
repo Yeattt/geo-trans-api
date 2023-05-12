@@ -52,9 +52,10 @@ const getOneClient = async(req, res) => {
 }
 
 const createClient = async(req, res) => {
-    const { body } = req;
 
     try {
+
+        const { body } = req
         const clientExists = await Client.findOne({
             where: {
                 documento: body.documento
@@ -115,6 +116,7 @@ const updateClient = async(req, res) => {
 
 const deleteClient = async(req, res) => {
     const { id } = req.params;
+    const { body } = req
 
     try {
         const client = await Client.findByPk(id);
@@ -126,7 +128,7 @@ const deleteClient = async(req, res) => {
             });
         }
 
-        await Client.destroy(id);
+        await client.destroy(body)
 
         res.status(200).json({
             ok: true,
