@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db = require('../../config/db');
-const Rol = require('./role');
+const Role = require('./role');
+const Company = require('./company')
 
 const User = db.define('usuarios', {
    id: {
@@ -29,8 +30,17 @@ const User = db.define('usuarios', {
          model: Rol,
          key: 'id'
       }
+   },
+   companyId: {
+      type: DataTypes.INTEGER,
+      references: {
+         model: Company,
+         key: 'id'
+      }
    }
 });
+
+User.belongsTo(Company, { foreignKey: 'companyId', targetKey: 'id'});
 
 User.belongsTo(Role, { foreignKey: 'rolId', targetKey: 'id' });
 
