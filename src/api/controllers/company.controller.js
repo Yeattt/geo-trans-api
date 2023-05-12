@@ -1,8 +1,8 @@
-const Compania = require('../models/company')
+const Company = require('../models/company')
 
 const getCompanies = async(req, res)=>{
     try {
-        const companies = await Compania.findAll();
+        const companies = await Company.findAll();
         if(!companies){
             return res.status(404).json({
                 ok: false,
@@ -26,7 +26,7 @@ const getCompanies = async(req, res)=>{
 const getOneCompany = async(req, res)=>{
     const { id } = req.params;
     try {
-        const company = await Compania.findByPk(id)
+        const company = await Company.findByPk(id)
 
         if (!company) {
             return res.status(404).json({
@@ -51,7 +51,7 @@ const getOneCompany = async(req, res)=>{
 const createCompany= async(req, res)=>{
     const { body } = req;
     try {
-       const companyExists = await Compania.findOne({
+       const companyExists = await Company.findOne({
         where: {
             nit: body.nit
         }
@@ -63,7 +63,7 @@ const createCompany= async(req, res)=>{
         });
        }
 
-       const company = await Compania.create(body);
+       const company = await Company.create(body);
        await company.save();
 
        res.status(200).json({
@@ -78,9 +78,41 @@ const createCompany= async(req, res)=>{
         })
     }
 }
+const statusCompany = async(req, res) => {
+    const { id } = req.params;
+
+
+    try {
+        const company = await Company.findByPk(id);
+
+        if (!company) {
+            return res.status(400).json({
+                ok: false,
+                msg: `Company with id ${id} not found`
+            });
+        }
+
+        await company.update({
+            estado : false
+        })
+
+
+        res.status(200).json({
+            ok: true,
+            msg: "Company inactivated successfully"
+        });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: "Internal server error"
+        })
+    }
+}
 
 module.exports = {
     getCompanies,
     getOneCompany,
-    createCompany
+    createCompany,
+    statusCompany
 }

@@ -1,7 +1,8 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes, BOOLEAN } = require("sequelize");
 const db = require('../../config/db');
 
-const Compania = db.define('companias', {
+
+const Company = db.define('companies', {
     id : {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -22,7 +23,11 @@ const Compania = db.define('companias', {
     },
     duenopoliza: {
         type: DataTypes.STRING
+    },
+    estado:{
+        type: DataTypes.BOOLEAN = true
     }
 })
 
-module.exports = Compania;
+
+module.exports = Company;
