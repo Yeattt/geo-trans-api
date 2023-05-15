@@ -2,8 +2,8 @@ const { DataTypes } = require("sequelize");
 const db = require('../../config/db');
 
 
-const Company = db.define('companies', {
-    id : {
+const Company = db.define('companias', {
+    id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
@@ -24,7 +24,7 @@ const Company = db.define('companies', {
     duenopoliza: {
         type: DataTypes.STRING
     },
-    estado:{
+    estado: {
         type: DataTypes.BOOLEAN
     }
 })

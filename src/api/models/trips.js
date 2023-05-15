@@ -1,15 +1,13 @@
 const { DataTypes } = require('sequelize');
-const db = require('../../config/db')
-const User = require('../models/user')
+const db = require('../../config/db');
+const Client = require('../models/client');
+const User = require('../models/user');
 
-const Price = db.define('cotizaciones', {
+const Trips = db.define('viajes', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
-    },
-    codigoCotizacion: {
-        type: DataTypes.INTEGER,
     },
     cantidad: {
         type: DataTypes.INTEGER,
@@ -50,8 +48,16 @@ const Price = db.define('cotizaciones', {
             model: User,
             key: 'id'
         }
+    },
+    clientId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Client,
+            key: 'id'
+        }
     }
 });
-Price.belongsTo(User, { foreignKey: 'userId', targetKey: 'id' });
+Trips.belongsTo(Client, { foreignKey: 'clientId', targetKey: 'id' });
+Trips.belongsTo(User, { foreignKey: 'userId', targetKey: 'id' })
 
-module.exports = Price
+module.exports = Trips
