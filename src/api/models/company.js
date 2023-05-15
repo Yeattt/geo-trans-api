@@ -1,4 +1,4 @@
-const { DataTypes, BOOLEAN } = require("sequelize");
+const { DataTypes } = require("sequelize");
 const db = require('../../config/db');
 
 
@@ -25,7 +25,7 @@ const Company = db.define('companies', {
         type: DataTypes.STRING
     },
     estado:{
-        type: DataTypes.BOOLEAN = true
+        type: DataTypes.BOOLEAN
     }
 })
 

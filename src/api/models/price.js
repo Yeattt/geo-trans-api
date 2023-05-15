@@ -43,15 +43,15 @@ const Price = db.define('prices', {
     },
     valorPagar: {
         type: DataTypes.INTEGER
+    },
+    clientId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Client,
+            key: 'id'
+        }
     }
-    // clientId: {
-    //     type: DataTypes.INTEGER,
-    //     references: {
-    //         model: Client,
-    //         key: 'id'
-    //     }
-    // }
 });
-// Price.belongsTo(Client, { foreignKey: 'clientId', targetKey: 'id' });
+Price.belongsTo(Client, { foreignKey: 'clientId', targetKey: 'id' });
 
 module.exports = Price

@@ -78,7 +78,7 @@ const createCompany= async(req, res)=>{
         })
     }
 }
-const statusCompany = async(req, res) => {
+const changeStatus = async(req, res) => {
     const { id } = req.params;
 
 
@@ -114,5 +114,5 @@ module.exports = {
     getCompanies,
     getOneCompany,
     createCompany,
-    statusCompany
+    changeStatus
 }
