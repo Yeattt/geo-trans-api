@@ -7,7 +7,7 @@ const clientRoutes = require('../routes/client.routes')
 const userRoutes = require('../routes/user.routes');
 const companyRoutes = require('../routes/company.routes');
 const priceRoutes = require('../routes/price.routes');
-const tripRoutes = require('../routes/trips.routes')
+const tripRoutes = require('../routes/trip.routes')
 
 class Server {
     constructor() {

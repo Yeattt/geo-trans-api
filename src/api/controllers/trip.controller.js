@@ -7,13 +7,13 @@ const getTrips = async(req, res) => {
         if (!trips) {
             return res.status(404).json({
                 ok: false,
-                err: 'There are no clients registered on this moment'
+                err: 'There are no trips registered on this moment'
             });
         }
 
         return res.status(200).json({
             ok: true,
-            prices
+            trips
         });
     } catch (error) {
         console.log(error);
@@ -24,7 +24,7 @@ const getTrips = async(req, res) => {
     }
 }
 
-const getOnetrip = async(req, res) => {
+const getOneTrip = async(req, res) => {
     const { id } = req.params;
 
     try {
@@ -33,7 +33,7 @@ const getOnetrip = async(req, res) => {
         if (!trip) {
             return res.status(404).json({
                 ok: false,
-                message: 'trip not found'
+                err: `Trip with id ${id} not found`
             });
         }
 
@@ -45,13 +45,13 @@ const getOnetrip = async(req, res) => {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            message: 'Internal server error'
+            err: 'Internal server error'
         });
     }
 }
 
 
-const createtrip = async(req, res) => {
+const createTrip = async(req, res) => {
     const { body } = req;
 
     try {
@@ -64,16 +64,17 @@ const createtrip = async(req, res) => {
         if (tripExists) {
             return res.status(404).json({
                 ok: false,
-                err: 'User already registered'
+                err: 'Trip already registered'
             });
         }
 
         const trip = await Trip.create(body);
+
         await trip.save();
 
         return res.status(200).json({
             ok: true,
-            message: 'Price created successfully'
+            message: 'Trip created successfully'
         });
     } catch (error) {
         console.log(error);
@@ -84,10 +85,9 @@ const createtrip = async(req, res) => {
     }
 }
 
-const updatetrip = async(req, res) => {
+const updateTrip = async(req, res) => {
     const { id } = req.params;
-    const { body } = req
-
+    const { body } = req;
 
     try {
         const trip = await Trip.findByPk(id);
@@ -95,7 +95,7 @@ const updatetrip = async(req, res) => {
         if (!trip) {
             return res.status(404).json({
                 ok: false,
-                err: `trip with id ${id} not found`
+                err: `Trip with id ${id} not found`
             });
         }
 
@@ -103,7 +103,7 @@ const updatetrip = async(req, res) => {
 
         return res.status(200).json({
             ok: 200,
-            message: 'Price updated successfully'
+            message: 'Trip updated successfully'
         })
     } catch (error) {
         console.log(error);
@@ -114,7 +114,7 @@ const updatetrip = async(req, res) => {
     }
 }
 
-const deletetrip = async(req, res) => {
+const deleteTrip = async(req, res) => {
     const { id } = req.params;
     const { body } = req
 
@@ -124,15 +124,15 @@ const deletetrip = async(req, res) => {
         if (!trip) {
             return res.status(404).json({
                 ok: false,
-                err: `Price with id ${id} not found`
+                err: `Trip with id ${id} not found`
             });
         }
 
-        await trip.destroy(body)
+        await trip.destroy(body);
 
         return res.status(200).json({
             ok: 200,
-            message: 'Price destroy successfully'
+            message: 'Trip deleted successfully'
         })
     } catch (error) {
         console.log(error);
@@ -145,8 +145,8 @@ const deletetrip = async(req, res) => {
 
 module.exports = {
     getTrips,
-    getOnetrip,
-    createtrip,
-    updatetrip,
-    deletetrip
+    getOneTrip,
+    createTrip,
+    updateTrip,
+    deleteTrip
 }
