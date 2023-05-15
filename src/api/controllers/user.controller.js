@@ -30,7 +30,19 @@ const getOneUser = async(req, res) => {
     const { id } = req.params;
 
     try {
+        const user = await User.findByPk(id, { include: Role });
 
+        if (!user) {
+            return res.status(404).json({
+                ok: false,
+                err: `User with id ${id} not found`
+            });
+        }
+
+        res.status(200).json({
+            ok: true,
+            user
+        });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
@@ -57,7 +69,7 @@ const createUser = async(req, res) => {
             });
         }
 
-        const roleExists = await Rol.findByPk(body.rolId);
+        const roleExists = await Role.findByPk(body.rolId);
 
         if (!roleExists) {
             return res.status(404).json({
