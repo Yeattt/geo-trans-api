@@ -25,8 +25,15 @@ const getOnePermission = async (req, res) => {
 }
 
 const createPermission = async (req, res) => {
-   try {
+   const { body } = req;
 
+   try {
+      const permission = await Permission.create(body);
+
+      res.status(200).json({
+         ok: true,
+         message: 'Permission created successfully'
+      });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
