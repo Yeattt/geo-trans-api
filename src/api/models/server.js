@@ -4,10 +4,12 @@ const db = require('../../config/db');
 
 const authRoutes = require('../routes/auth.routes');
 const clientRoutes = require('../routes/client.routes')
-const userRoutes = require('../routes/user.routes');
 const companyRoutes = require('../routes/company.routes');
+const permissionRoutes = require('../routes/permission.routes');
 const priceRoutes = require('../routes/price.routes');
-const tripRoutes = require('../routes/trip.routes')
+const roleRoutes = require('../routes/role.routes');
+const tripRoutes = require('../routes/trip.routes');
+const userRoutes = require('../routes/user.routes');
 
 class Server {
     constructor() {
@@ -16,10 +18,12 @@ class Server {
         this.apiRoutes = {
             auth: '/api/auth',
             clients: '/api/clients',
-            users: '/api/users',
             companies: '/api/companies',
+            permissions: '/api/permissions',
+            prices: '/api/prices',
+            roles: '/api/roles',
             trips: '/api/trips',
-            prices: '/api/prices'
+            users: '/api/users'
         }
 
         this.middlewares();
@@ -45,10 +49,12 @@ class Server {
     routes() {
         this.app.use(this.apiRoutes.auth, authRoutes);
         this.app.use(this.apiRoutes.clients, clientRoutes);
-        this.app.use(this.apiRoutes.users, userRoutes);
         this.app.use(this.apiRoutes.companies, companyRoutes);
         this.app.use(this.apiRoutes.prices, priceRoutes);
+        this.app.use(this.apiRoutes.permissions, permissionRoutes);
+        this.app.use(this.apiRoutes.roles, roleRoutes);
         this.app.use(this.apiRoutes.trips, tripRoutes);
+        this.app.use(this.apiRoutes.users, userRoutes);
     }
 
     listen() {
