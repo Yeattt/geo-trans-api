@@ -69,7 +69,7 @@ const createUser = async(req, res) => {
             });
         }
 
-        const roleExists = await Role.findByPk(body.rolId);
+        const roleExists = await Role.findByPk(body.roleId);
 
         if (!roleExists) {
             return res.status(404).json({
