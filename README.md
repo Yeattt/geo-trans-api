@@ -1,7 +1,5 @@
 ## 🚛 - GeoTrans Api
 
-#
-
 API for GeoTrans project
 
 To run this API locally, build the project and then run it, use:
