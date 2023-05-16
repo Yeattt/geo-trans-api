@@ -30,6 +30,8 @@ const createPermission = async (req, res) => {
    try {
       const permission = await Permission.create(body);
 
+      await permission.save();
+
       res.status(200).json({
          ok: true,
          message: 'Permission created successfully'
