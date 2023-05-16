@@ -25,7 +25,7 @@ const User = db.define('usuarios', {
     contrasena: {
         type: DataTypes.STRING
     },
-    rolId: {
+    roleId: {
         type: DataTypes.INTEGER,
         references: {
             model: Role,
