@@ -12,22 +12,22 @@ const Company = db.define('companias', {
         type: DataTypes.INTEGER,
         unique: true
     },
-    razonsocial: {
+    razonSocial: {
         type: DataTypes.STRING,
     },
-    nombreempresa: {
+    nombreEmpresa: {
         type: DataTypes.STRING
     },
     telefono: {
         type: DataTypes.INTEGER
     },
-    duenopoliza: {
+    duenoPoliza: {
         type: DataTypes.STRING
     },
     estado: {
         type: DataTypes.BOOLEAN
     }
-})
+});
 
 
 module.exports = Company;
