@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const db = require('../../config/db');
 const Role = require('./role');
 const Company = require('./company')
-const Vehicle=require('./vehicles')
+const Vehicle = require('./vehicles')
 
 const User = db.define('usuarios', {
     id: {
@@ -39,17 +39,19 @@ const User = db.define('usuarios', {
             key: 'id'
         }
     },
-    vehicleId:{
-        type:DataTypes.INTEGER,
-        references:{
-            model:Vehicle,
-            key:'id'
+    vehicleId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Vehicle,
+            key: 'id'
         }
     }
 });
 
+// Relacion ya es de vehiculo a viaje y usuario a viaje
+
 User.belongsTo(Role, { foreignKey: 'rolId', targetKey: 'id' });
-User.belongsTo(Company, { foreignKey: 'companyId', targetKey: 'id'});
+User.belongsTo(Company, { foreignKey: 'companyId', targetKey: 'id' });
 User.belongsTo(Vehicle, { foreignKey: 'vehicleId', targetKey: 'id' })
 
 module.exports = User;

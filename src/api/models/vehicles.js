@@ -19,10 +19,10 @@ const Vehicle = db.define('vehiculos', {
     placa: {
         type: DataTypes.STRING
     },
-    placaSemiremolque: {
+    placaSemirremolque: {
         type: DataTypes.STRING
     },
-    parjetaPropiedad: {
+    tarjetaPropiedad: {
         type: DataTypes.STRING
     },
     tecnomecanica: {
