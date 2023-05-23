@@ -78,6 +78,36 @@ const createCompany= async(req, res)=>{
         })
     }
 }
+
+const updateCompany = async(req, res) => {
+    const { id } = req.params;
+    const { body } = req;
+
+    try {
+        const company = await Company.findByPk(id);
+
+        if (!company) {
+            return res.status(400).json({
+                ok: false,
+                msg: `Company with id ${id} not found`
+            });
+        }
+
+        await company.update(body);
+
+        res.status(200).json({
+            ok: true,
+            msg: 'Company updated successfully'
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            msg: "Internal server error"
+        });
+    }
+}
+
 const changeStatus = async(req, res) => {
     const { id } = req.params;
 
@@ -114,5 +144,6 @@ module.exports = {
     getCompanies,
     getOneCompany,
     createCompany,
+    updateCompany,
     changeStatus
 }
