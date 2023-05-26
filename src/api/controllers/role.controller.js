@@ -1,6 +1,49 @@
 const Role = require('../models/role');
 const Permission = require('../models/permission');
 
+const assignPermissionsToRole = async (req, res) => {
+   const { id } = req.params;
+   const { permissionsId } = req.body;
+
+   try {
+      const role = await Role.findByPk(id);
+
+      if (!role) {
+         return res.status(404).json({
+            ok: false,
+            message: `No role with id ${id} found`
+         });
+      }
+
+      const permissionsToAssign = await Permission.findAll({
+         where: {
+            id: permissionsId
+         }
+      });
+
+      if (permissionsToAssign.length === 0) {
+         return res.status(404).json({
+            ok: false,
+            message: 'No permissions were found with these ids'
+         });
+      }
+
+      await role.setPermissions(permissionsToAssign);
+      await role.save();
+
+      res.status(200).json({
+         ok: true,
+         message: 'Permissions assigned successfully'
+      });
+   } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+         ok: false,
+         err: 'Internal server error'
+      });
+   }
+}
+
 const getRoles = async (req, res) => {
    try {
       const roles = await Role.findAll();
@@ -8,7 +51,7 @@ const getRoles = async (req, res) => {
       if (!roles) {
          return res.status(404).json({
             ok: false,
-            err: 'There are no roles registered'
+            message: 'There are no roles registered'
          });
       }
 
@@ -27,7 +70,7 @@ const getRoles = async (req, res) => {
 
 const getOneRole = async (req, res) => {
    try {
-      
+
    } catch (error) {
       console.log(error);
       return res.status(500).json({
@@ -39,36 +82,28 @@ const getOneRole = async (req, res) => {
 
 const createRole = async (req, res) => {
    const { body } = req;
-   const { permissions } = body;
 
    try {
-      const role = await Role.findOne({
+      const existRole = await Role.findOne({
          where: {
-            nombre: body.nombre
+            nombre: body.nombre 
          }
-      });
+      })
 
-      if (role) {
+      if (existRole) {
          return res.status(400).json({
             ok: false,
-            err: 'Role already registered'            
+            message: 'Role already registered with that name'
          });
       }
-
-      const existPermissions = await Permission.findAll({
-         where: {
-            id: permissions
-         }
-      });
-
-      if (!existPermissions) {
-         return res.status(404).json({
-            ok: false,
-            err: 'No permissions found'
-         });
-      }
-
       
+      const role = await Role.create(body);
+      await role.save();
+
+      res.status(200).json({
+         ok: true,
+         message: 'Role created successfully'
+      });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
@@ -80,7 +115,7 @@ const createRole = async (req, res) => {
 
 const updateRole = async (req, res) => {
    try {
-      
+
    } catch (error) {
       console.log(error);
       return res.status(500).json({
@@ -92,7 +127,7 @@ const updateRole = async (req, res) => {
 
 const deleteRole = async (req, res) => {
    try {
-      
+
    } catch (error) {
       console.log(error);
       return res.status(500).json({
@@ -103,9 +138,10 @@ const deleteRole = async (req, res) => {
 }
 
 module.exports = {
+   assignPermissionsToRole,
    getRoles,
    getOneRole,
    createRole,
    updateRole,
-   deleteRole
+   deleteRole,
 }
