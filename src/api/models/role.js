@@ -11,16 +11,12 @@ const Role = db.define('roles', {
     },
     nombre: {
         type: DataTypes.STRING
-    },
-    permissionId: {
-        type: DataTypes.INTEGER,
-        references: {
-            model: Permission,
-            key: 'id'
-        }
-    },
+    }
 });
 
-Role.belongsTo(Permission, { foreignKey: 'permissionId', targetKey: 'id' });
+Role.hasMany(Permission, {
+    foreignKey: 'roleId',
+    as: 'permissions'
+});
 
 module.exports = Role;
