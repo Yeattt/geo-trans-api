@@ -2,7 +2,19 @@ const Permission = require('../models/permission');
 
 const getPermissions = async (req, res) => {
    try {
+      const permissions = await Permission.findAll();
 
+      if (!permissions) {
+         return res.status(404).json({
+            ok: false,
+            message: 'No permissions registered yet'
+         });
+      }
+
+      res.status(200).json({
+         ok: true,
+         permissions
+      });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
@@ -13,8 +25,22 @@ const getPermissions = async (req, res) => {
 }
 
 const getOnePermission = async (req, res) => {
-   try {
+   const { id } = req.params;
 
+   try {
+      const permission = await Permission.findByPk(id);
+
+      if (!permission) {
+         return res.status(404).json({
+            ok: false,
+            message: `Permission with id ${id} not found`
+         });
+      }
+
+      res.status(200).json({
+         ok: true,
+         permission
+      });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
@@ -46,8 +72,27 @@ const createPermission = async (req, res) => {
 }
 
 const updatePermission = async (req, res) => {
-   try {
+   const { id } = req.params;
+   const { body } = req;
 
+   try {
+      const permission = await Permission.findByPk(id);
+
+      if (!permission) {
+         return res.status(404).json({
+            ok: false,
+            message: `Permission with id ${id} not found`
+         });
+      }
+
+      await permission.update(body);
+
+      await permission.save();
+
+      res.status(200).json({
+         ok: true,
+         message: 'Permission updated successfully'
+      });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
@@ -58,8 +103,24 @@ const updatePermission = async (req, res) => {
 }
 
 const deletePermission = async (req, res) => {
-   try {
+   const { id } = req.params;
 
+   try {
+      const permission = await Permission.findByPk(id);
+
+      if (!permission) {
+         return res.status(404).json({
+            ok: false,
+            message: `Permission with id ${id} not found`
+         })
+      }
+
+      await permission.destroy();
+
+      res.status(200).json({
+         ok: true,
+         message: 'Permission deleted successfully'
+      });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
