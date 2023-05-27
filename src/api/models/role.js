@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db = require('../../config/db');
 
-const Permission = require('../models/permission');
+const Permission = require('./permission');
 
 const Role = db.define('roles', {
     id: {
@@ -14,9 +14,6 @@ const Role = db.define('roles', {
     }
 });
 
-Role.hasMany(Permission, {
-    foreignKey: 'roleId',
-    as: 'permissions'
-});
+Role.belongsToMany(Permission, { through: 'Roles_Permissions', as: 'permissions' });
 
 module.exports = Role;
