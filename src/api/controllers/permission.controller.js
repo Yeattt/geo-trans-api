@@ -54,8 +54,20 @@ const createPermission = async (req, res) => {
    const { body } = req;
 
    try {
-      const permission = await Permission.create(body);
+      const existPermission = await Permission.findOne({
+         where: {
+            nombre: body.nombre
+         }
+      });
 
+      if (existPermission) {
+         return res.status(400).json({
+            ok: false,
+            message: 'Permission already registered with that name'
+         });
+      }
+
+      const permission = await Permission.create(body);
       await permission.save();
 
       res.status(200).json({
