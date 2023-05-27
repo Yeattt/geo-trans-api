@@ -10,6 +10,7 @@ const priceRoutes = require('../routes/price.routes');
 const roleRoutes = require('../routes/role.routes');
 const tripRoutes = require('../routes/trip.routes');
 const userRoutes = require('../routes/user.routes');
+const vehicleRoutes = require('../routes/vehicles.routes');
 
 class Server {
     constructor() {
@@ -23,7 +24,8 @@ class Server {
             prices: '/api/prices',
             roles: '/api/roles',
             trips: '/api/trips',
-            users: '/api/users'
+            users: '/api/users',
+            vehicles: '/api/vehicles'
         }
 
         this.middlewares();
@@ -55,6 +57,7 @@ class Server {
         this.app.use(this.apiRoutes.roles, roleRoutes);
         this.app.use(this.apiRoutes.trips, tripRoutes);
         this.app.use(this.apiRoutes.users, userRoutes);
+        this.app.use(this.apiRoutes.vehicles, vehicleRoutes);
     }
 
     listen() {
