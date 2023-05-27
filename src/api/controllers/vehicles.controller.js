@@ -26,7 +26,7 @@ const getVehicle = async(req, res) => {
 const createVehicle = async(req, res) => {
     const { body } = req;
     try {
-        const existVehicle = await Vehicles.findOne({
+        const existVehicle = await Vehicle.findOne({
             where: {
                 placa: body.placa,
             }
