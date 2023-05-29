@@ -2,9 +2,9 @@ const Client = require('../models/client')
 
 const getClients = async(req, res) => {
     try {
-        const client = await Client.findAll();
+        const clients = await Client.findAll();
 
-        if (!client) {
+        if (!clients) {
             return res.status(404).json({
                 ok: false,
                 message: 'There are no clients registered on this moment'
@@ -13,7 +13,7 @@ const getClients = async(req, res) => {
 
         res.status(200).json({
             ok: true,
-            client
+            clients
         });
     } catch (error) {
         console.log(error);

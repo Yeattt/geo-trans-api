@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const Role = require('../models/role');
+const Company = require('../models/company');
+const Vehicle = require('../models/vehicles');
 
 const getUsers = async(req, res) => {
     try {
@@ -74,7 +76,25 @@ const createUser = async(req, res) => {
         if (!roleExists) {
             return res.status(404).json({
                 ok: false,
-                err: 'Rol not found'
+                err: 'Role not found'
+            });
+        }
+
+        const companyExists = await Company.findByPk(body.companyId);
+
+        if (!companyExists) {
+            return res.status(404).json({
+                ok: false,
+                err: 'Company not found'
+            });
+        }
+
+        const vehicleExists = await Vehicle.findByPk(body.roleId);
+
+        if (!vehicleExists) {
+            return res.status(404).json({
+                ok: false,
+                err: 'Vehicle not found'
             });
         }
 

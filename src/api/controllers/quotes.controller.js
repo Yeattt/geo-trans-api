@@ -1,10 +1,10 @@
-const Price = require('../models/price')
+const Quote = require('../models/quote')
 
-const getPrice = async(req, res) => {
+const getQuote = async(req, res) => {
     try {
-        const prices = await Price.findAll();
+        const quotes = await Quote.findAll();
 
-        if (!prices) {
+        if (!quotes) {
             return res.status(404).json({
                 ok: false,
                 err: 'There are no clients registered on this moment'
@@ -13,7 +13,7 @@ const getPrice = async(req, res) => {
 
         return res.status(200).json({
             ok: true,
-            prices
+            quotes
         });
     } catch (error) {
         console.log(error);
@@ -24,22 +24,22 @@ const getPrice = async(req, res) => {
     }
 }
 
-const getOnePrice = async(req, res) => {
+const getOneQuote = async(req, res) => {
     const { id } = req.params;
 
     try {
-        const price = await Price.findByPk(id);
+        const quote = await Quote.findByPk(id);
 
-        if (!price) {
+        if (!quote) {
             return res.status(404).json({
                 ok: false,
-                message: 'Price not found'
+                message: 'Quote not found'
             });
         }
 
         res.status(200).json({
             ok: true,
-            price
+            quote
         });
     } catch (error) {
         console.log(error);
@@ -51,29 +51,29 @@ const getOnePrice = async(req, res) => {
 }
 
 
-const createPrice = async(req, res) => {
+const createQuote = async(req, res) => {
     const { body } = req;
 
     try {
-        const priceExists = await Price.findOne({
-            where: {
-                codigoCotizacion: body.codigoCotizacion
-            }
-        })
+        // const quoteExists = await Quote.findOne({
+        //     where: {
+        //         codigoCotizacion: body.codigoCotizacion
+        //     }
+        // });
 
-        if (priceExists) {
-            return res.status(404).json({
-                ok: false,
-                err: 'User already registered'
-            });
-        }
+        // if (quoteExists) {
+        //     return res.status(400).json({
+        //         ok: false,
+        //         err: 'Quote already registered'
+        //     });
+        // }
 
-        const price = await Price.create(body);
-        await price.save();
+        const quote = await Quote.create(body);
+        await quote.save();
 
-        return res.status(200).json({
+        res.status(200).json({
             ok: true,
-            message: 'Price created successfully'
+            message: 'Quote created successfully'
         });
     } catch (error) {
         console.log(error);
@@ -84,26 +84,25 @@ const createPrice = async(req, res) => {
     }
 }
 
-const updatePrice = async(req, res) => {
+const updateQuote = async(req, res) => {
     const { id } = req.params;
     const { body } = req
 
-
     try {
-        const price = await Price.findByPk(id);
+        const quote = await Quote.findByPk(id);
 
-        if (!price) {
+        if (!quote) {
             return res.status(404).json({
                 ok: false,
-                err: `Price with id ${id} not found`
+                err: `Quote with id ${id} not found`
             });
         }
 
-        await price.update(body);
+        await quote.update(body);
 
         return res.status(200).json({
             ok: 200,
-            message: 'Price updated successfully'
+            message: 'Quote updated successfully'
         })
     } catch (error) {
         console.log(error);
@@ -114,25 +113,25 @@ const updatePrice = async(req, res) => {
     }
 }
 
-const deletePrice = async(req, res) => {
+const deleteQuote = async(req, res) => {
     const { id } = req.params;
     const { body } = req
 
     try {
-        const price = await Price.findByPk(id);
+        const quote = await Quote.findByPk(id);
 
-        if (!price) {
+        if (!quote) {
             return res.status(404).json({
                 ok: false,
-                err: `Price with id ${id} not found`
+                err: `Quote with id ${id} not found`
             });
         }
 
-        await price.destroy(body)
+        await quote.destroy(body)
 
         return res.status(200).json({
             ok: 200,
-            message: 'Price destroy successfully'
+            message: 'Quote destroy successfully'
         })
     } catch (error) {
         console.log(error);
@@ -144,9 +143,9 @@ const deletePrice = async(req, res) => {
 }
 
 module.exports = {
-    getPrice,
-    getOnePrice,
-    createPrice,
-    updatePrice,
-    deletePrice
+    getQuote,
+    getOneQuote,
+    createQuote,
+    updateQuote,
+    deleteQuote
 }

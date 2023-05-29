@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 const db = require('../../config/db')
-const User = require('../models/user')
+const User = require('./user')
 
-const Price = db.define('cotizaciones', {
+const Quote = db.define('cotizaciones', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -52,6 +52,7 @@ const Price = db.define('cotizaciones', {
         }
     }
 });
-Price.belongsTo(User, { foreignKey: 'userId', targetKey: 'id' });
 
-module.exports = Price
+Quote.belongsTo(User, { foreignKey: 'userId', targetKey: 'id' });
+
+module.exports = Quote;

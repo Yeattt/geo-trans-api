@@ -5,8 +5,8 @@ const db = require('../../config/db');
 const authRoutes = require('../routes/auth.routes');
 const clientRoutes = require('../routes/client.routes')
 const companyRoutes = require('../routes/company.routes');
+const quoteRoutes = require('../routes/quote.routes');
 const permissionRoutes = require('../routes/permission.routes');
-const priceRoutes = require('../routes/price.routes');
 const roleRoutes = require('../routes/role.routes');
 const tripRoutes = require('../routes/trip.routes');
 const userRoutes = require('../routes/user.routes');
@@ -21,7 +21,7 @@ class Server {
             clients: '/api/clients',
             companies: '/api/companies',
             permissions: '/api/permissions',
-            prices: '/api/prices',
+            quotes: '/api/quotes',
             roles: '/api/roles',
             trips: '/api/trips',
             users: '/api/users',
@@ -41,7 +41,7 @@ class Server {
     async dbConnection() {
         try {
             await db.authenticate();
-            await db.sync({ force: true });
+            // await db.sync({ force: true });
             console.log('Successful connection to the database');
         } catch (error) {
             throw new Error(error);
@@ -52,7 +52,7 @@ class Server {
         this.app.use(this.apiRoutes.auth, authRoutes);
         this.app.use(this.apiRoutes.clients, clientRoutes);
         this.app.use(this.apiRoutes.companies, companyRoutes);
-        this.app.use(this.apiRoutes.prices, priceRoutes);
+        this.app.use(this.apiRoutes.quotes, quoteRoutes);
         this.app.use(this.apiRoutes.permissions, permissionRoutes);
         this.app.use(this.apiRoutes.roles, roleRoutes);
         this.app.use(this.apiRoutes.trips, tripRoutes);

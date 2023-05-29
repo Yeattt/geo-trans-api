@@ -57,7 +57,7 @@ const createTrip = async(req, res) => {
     try {
         const tripExists = await Trip.findOne({
             where: {
-                codigoCotizacion: body.codigoCotizacion
+                codigoProducto: body.codigoProducto
             }
         })
 

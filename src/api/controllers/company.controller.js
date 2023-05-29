@@ -59,7 +59,7 @@ const createCompany= async(req, res)=>{
        if(companyExists){
         return res.status(404).json({
             ok: false,
-            msg: "Company alredy registered"
+            msg: "Company already registered"
         });
        }
 
