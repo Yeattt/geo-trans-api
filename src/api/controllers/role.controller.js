@@ -46,7 +46,9 @@ const assignPermissionsToRole = async (req, res) => {
 
 const getRoles = async (req, res) => {
    try {
-      const roles = await Role.findAll();
+      const roles = await Role.findAll({
+         include: Permission
+      });
 
       if (!roles) {
          return res.status(404).json({
