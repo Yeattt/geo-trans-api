@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const db = require('../../config/db');
 
+const RolesPermissions = require('../models/rolesPermissions');
+
 const authRoutes = require('../routes/auth.routes');
 const clientRoutes = require('../routes/client.routes')
 const companyRoutes = require('../routes/company.routes');
@@ -40,8 +42,8 @@ class Server {
 
     async dbConnection() {
         try {
-            await db.authenticate();
             // await db.sync({ force: true });
+            await db.authenticate();
             console.log('Successful connection to the database');
         } catch (error) {
             throw new Error(error);
