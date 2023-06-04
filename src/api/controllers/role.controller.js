@@ -28,7 +28,7 @@ const assignPermissionsToRole = async (req, res) => {
          });
       }
 
-      await role.setPermissions(permissionsToAssign);
+      await role.addPermiso(permissionsToAssign);
       await role.save();
 
       res.status(200).json({
@@ -69,8 +69,25 @@ const getRoles = async (req, res) => {
 }
 
 const getOneRole = async (req, res) => {
-   try {
+   const { id } = req.params;
 
+   try {
+      const role = await Role.findOne({
+         where: { id: id },
+         include: Permission
+      });
+
+      if (!role) {
+         return res.status(404).json({
+            ok: false,
+            message: `No role found with id ${id}`
+         });
+      }
+
+      res.status(200).json({
+         ok: true,
+         role
+      });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
@@ -86,7 +103,7 @@ const createRole = async (req, res) => {
    try {
       const existRole = await Role.findOne({
          where: {
-            nombre: body.nombre 
+            nombre: body.nombre
          }
       })
 
@@ -96,7 +113,7 @@ const createRole = async (req, res) => {
             message: 'Role already registered with that name'
          });
       }
-      
+
       const role = await Role.create(body);
       await role.save();
 
