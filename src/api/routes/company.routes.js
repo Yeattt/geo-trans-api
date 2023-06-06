@@ -17,16 +17,16 @@ router.post('/create', [
     check('telefono', 'Phone number is required').notEmpty(),
     check('telefono', 'The Telephone number is a minimum of 10 and a maximum of 10').isLength({min: 10, max: 10}),
     check('duenoPoliza', 'Policy owner is required').notEmpty(),
-    check('duenoPoliza', 'Policy owner only accepts numbers').isNumeric(),
+    check('duenoPoliza', 'Policy owner only accepts letters').isString(),
     validateFields
 ], createCompany);
 router.put('/update/:id', [
     check('nit', 'The Nit only accepts numbers').isNumeric(),
-    check('razonsocial', 'The Company name accepts only letters').isString(),
-    check('nombreempresa', 'Company name is letters').isString(),
+    check('razonSocial', 'The Company name accepts only letters').isString(),
+    check('nombreEmpresa', 'Company name is letters').isString(),
     check('telefono', 'Phone number only accepts numbers').isNumeric(),
     check('telefono', 'The Telephone number is a minimum of 10 and a maximum of 10').isLength({min: 10, max: 10}),
-    check('duenopoliza', 'Policy owner only accepts numbers').isNumeric(),
+    check('duenoPoliza', 'Policy owner only accepts letters').isString(),
     validateFields
 ], updateCompany)
 router.delete('/delete/:id', changeStatus)
