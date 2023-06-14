@@ -11,7 +11,7 @@ const Vehicle = db.define('vehiculos', {
         type: DataTypes.STRING
     },
     modelo: {
-        type: DataTypes.STRING
+        type: DataTypes.INTEGER
     },
     marca: {
         type: DataTypes.STRING
