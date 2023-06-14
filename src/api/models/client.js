@@ -18,6 +18,10 @@ const Client = db.define('clientes', {
     },
     telefono: {
         type: DataTypes.INTEGER
+    },
+    estado: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
     }
 });
 

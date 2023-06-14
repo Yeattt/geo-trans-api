@@ -10,7 +10,7 @@ const {
 } = require('../controllers/vehicles.controller');
 
 router.get('/', getVehicle);
-router.get('/', getOneVehicle);
+router.get('/:id', getOneVehicle);
 router.post('/create', [
     check('tipoCamion', 'Type of truck required ').notEmpty(),
     check('tipoCamion', 'The truck type field must be a text string ').isString(),
@@ -30,7 +30,7 @@ router.post('/create', [
     check('soat', 'The soat must be a text stirng').isString(),
     validateFields
 ], createVehicle);
-router.put('/', [
+router.put('/update/:id', [
     check('tipoCamion', 'Type of truck required ').notEmpty(),
     check('tipoCamion', 'The truck type field must be a text string ').isString(),
     check('modelo', 'Required Model ').notEmpty(),
@@ -49,6 +49,6 @@ router.put('/', [
     check('soat', 'The soat must be a text stirng').isString(),
     validateFields,
 ], updateVehicle);
-router.delete('/', deleteVehicle);
+router.delete('/delete/:id', deleteVehicle);
 
 module.exports = router;

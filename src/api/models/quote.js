@@ -50,6 +50,10 @@ const Quote = db.define('cotizaciones', {
             model: User,
             key: 'id'
         }
+    },
+    estado: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
     }
 });
 

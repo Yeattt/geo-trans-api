@@ -31,5 +31,9 @@ const Vehicle = db.define('vehiculos', {
     soat: {
         type: DataTypes.STRING
     },
+    estado: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
+    }
 })
 module.exports = Vehicle;

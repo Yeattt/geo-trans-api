@@ -116,7 +116,7 @@ const updateClient = async(req, res) => {
 
 const deleteClient = async(req, res) => {
     const { id } = req.params;
-    const { body } = req
+
 
     try {
         const client = await Client.findByPk(id);
@@ -124,21 +124,31 @@ const deleteClient = async(req, res) => {
         if (!client) {
             return res.status(400).json({
                 ok: false,
-                message: `Client with id ${id} not found`
+                msg: `Client with id ${id} not found`
             });
         }
+        if (client.estado) {
+            await client.update({
+                estado : false
+            })    
+        }
+        else{
+            await client.update({
+                estado : true
+            })
+        }
+        
 
-        await client.destroy(body)
 
         res.status(200).json({
             ok: true,
-            message: "Client deleted successfully"
+            msg: "Client status change successfully"
         });
     } catch (error) {
         console.log(error)
         res.status(500).json({
             ok: false,
-            message: "Internal server error"
+            msg: "Internal server error"
         })
     }
 }

@@ -117,29 +117,40 @@ const updatePermission = async (req, res) => {
 const deletePermission = async (req, res) => {
    const { id } = req.params;
 
-   try {
-      const permission = await Permission.findByPk(id);
 
-      if (!permission) {
-         return res.status(404).json({
+    try {
+        const permission = await Permission.findByPk(id);
+
+        if (!permission) {
+            return res.status(400).json({
+                ok: false,
+                msg: `Permission with id ${id} not found`
+            });
+        }
+        if (permission.estado) {
+            await permission.update({
+                estado : false
+            })    
+        }
+        else{
+            await permission.update({
+                estado : true
+            })
+        }
+        
+
+
+        res.status(200).json({
+            ok: true,
+            msg: "Permission status change successfully"
+        });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
             ok: false,
-            message: `Permission with id ${id} not found`
-         })
-      }
-
-      await permission.destroy();
-
-      res.status(200).json({
-         ok: true,
-         message: 'Permission deleted successfully'
-      });
-   } catch (error) {
-      console.log(error);
-      return res.status(500).json({
-         ok: false,
-         err: 'Internal server error'
-      });
-   }
+            msg: "Internal server error"
+        })
+    }
 }
 
 module.exports = {

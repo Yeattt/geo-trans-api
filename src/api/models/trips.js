@@ -51,22 +51,27 @@ const Trips = db.define('viajes', {
     cliente:{
         type:DataTypes.STRING
     },
-    vehiculo:{
-        type:DataTypes.STRING,
-        references:{
+    conductorId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: User,
+            key: 'id'
+        }
+    },
+    vehiculoId: {
+        type: DataTypes.INTEGER,
+        references: {
             model: Vehicle,
             key: 'id'
         }
     },
-    conductor:{
-        type:DataTypes.STRING,
-        references:{
-            model: User,
-            key: 'id'
-        }
+    estado: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
     }
 });
 
-User.belongsTo(Vehicle, { foreignKey: 'vehicleId', targetKey: 'id' })
+Trips.belongsTo(User, { foreignKey: 'conductorId', targetKey: 'id' });
+Trips.belongsTo(Vehicle, { foreignKey: 'vehiculoId', targetKey: 'id' });
 
 module.exports = Trips

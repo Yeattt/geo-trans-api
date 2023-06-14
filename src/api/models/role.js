@@ -9,6 +9,10 @@ const Role = db.define('roles', {
     },
     nombre: {
         type: DataTypes.STRING
+    },
+    estado: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
     }
 });
 

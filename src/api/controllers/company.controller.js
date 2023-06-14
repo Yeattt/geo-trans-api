@@ -121,15 +121,22 @@ const changeStatus = async(req, res) => {
                 msg: `Company with id ${id} not found`
             });
         }
-
-        await company.update({
-            estado : false
-        })
+        if (company.estado) {
+            await company.update({
+                estado : false
+            })    
+        }
+        else{
+            await company.update({
+                estado : true
+            })
+        }
+        
 
 
         res.status(200).json({
             ok: true,
-            msg: "Company inactivated successfully"
+            msg: "Company status change successfully"
         });
     } catch (error) {
         console.log(error)
