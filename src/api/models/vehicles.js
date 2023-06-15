@@ -11,7 +11,7 @@ const Vehicle = db.define('vehiculos', {
         type: DataTypes.STRING
     },
     modelo: {
-        type: DataTypes.STRING
+        type: DataTypes.INTEGER
     },
     marca: {
         type: DataTypes.STRING
@@ -31,5 +31,9 @@ const Vehicle = db.define('vehiculos', {
     soat: {
         type: DataTypes.STRING
     },
+    estado: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
+    }
 })
 module.exports = Vehicle;

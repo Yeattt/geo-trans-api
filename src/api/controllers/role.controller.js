@@ -133,8 +133,27 @@ const createRole = async (req, res) => {
 }
 
 const updateRole = async (req, res) => {
+   const { id } = req.params;
+   const { body } = req;
+   
    try {
+      const role = await Role.findByPk(id);
 
+      if (!role) {
+         return res.status(404).json({
+            ok: false,
+            message: `Role with id ${id} not found`
+         });
+      }
+
+      await role.update(body);
+
+      await role.save();
+
+      res.status(200).json({
+         ok: true,
+         message: 'Role updated successfully'
+      });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
@@ -145,14 +164,40 @@ const updateRole = async (req, res) => {
 }
 
 const deleteRole = async (req, res) => {
-   try {
+   const { id } = req.params;
 
+   try {
+       const role = await Role.findByPk(id);
+
+       if (!role) {
+           return res.status(400).json({
+               ok: false,
+               msg: `Role with id ${id} not found`
+           });
+       }
+       if (role.estado) {
+           await role.update({
+               estado : false
+           })    
+       }
+       else{
+           await role.update({
+               estado : true
+           })
+       }
+       
+
+
+       res.status(200).json({
+           ok: true,
+           msg: "Role status change successfully"
+       });
    } catch (error) {
-      console.log(error);
-      return res.status(500).json({
-         ok: false,
-         err: 'Internal server error'
-      });
+       console.log(error)
+       res.status(500).json({
+           ok: false,
+           msg: "Internal server error"
+       })
    }
 }
 

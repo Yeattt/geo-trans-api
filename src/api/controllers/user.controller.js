@@ -129,9 +129,50 @@ const updateUser = async(req, res) => {
     }
 }
 
+const deleteUser = async(req, res) => {
+    const { id } = req.params;
+
+
+    try {
+        const user = await User.findByPk(id);
+
+        if (!user) {
+            return res.status(400).json({
+                ok: false,
+                msg: `User with id ${id} not found`
+            });
+        }
+        if (user.estado) {
+            await user.update({
+                estado : false
+            })    
+        }
+        else{
+            await user.update({
+                estado : true
+            })
+        }
+        
+
+
+        res.status(200).json({
+            ok: true,
+            msg: "User status change successfully"
+        });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: false,
+            msg: "Internal server error"
+        })
+    }
+}
+
+
 module.exports = {
     getUsers,
     getOneUser,
     createUser,
-    updateUser
+    updateUser,
+    deleteUser
 }

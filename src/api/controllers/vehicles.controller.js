@@ -116,28 +116,42 @@ const updateVehicle = async (req, res) => {
 
 const deleteVehicle = async (req, res) => {
     const { id } = req.params;
+
+
     try {
         const vehicle = await Vehicle.findByPk(id);
+
         if (!vehicle) {
-            res.status(400).json({
+            return res.status(400).json({
                 ok: false,
-                message: ` Vehicle with id ${id} not found `
+                msg: `Vehicle with id ${id} not found`
             });
         }
-        await Vehicle.destroy(id);
-        res.status(200)({
+        if (vehicle.estado) {
+            await vehicle.update({
+                estado : false
+            })    
+        }
+        else{
+            await vehicle.update({
+                estado : true
+            })
+        }
+        
+
+
+        res.status(200).json({
             ok: true,
-            message: 'Vehicle deleted sucessfully'
+            msg: "Vehicle status change successfully"
         });
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({
+        console.log(error)
+        res.status(500).json({
             ok: false,
-            message: 'Internal server error'
-        });
+            msg: "Internal server error"
+        })
     }
 }
-
 module.exports = {
     getVehicle,
     getOneVehicle,

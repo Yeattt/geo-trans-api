@@ -45,6 +45,10 @@ const User = db.define('usuarios', {
             model: Vehicle,
             key: 'id'
         }
+    },
+    estado: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
     }
 });
 

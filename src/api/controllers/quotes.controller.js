@@ -115,33 +115,42 @@ const updateQuote = async(req, res) => {
 
 const deleteQuote = async(req, res) => {
     const { id } = req.params;
-    const { body } = req
+
 
     try {
         const quote = await Quote.findByPk(id);
 
         if (!quote) {
-            return res.status(404).json({
+            return res.status(400).json({
                 ok: false,
-                err: `Quote with id ${id} not found`
+                msg: `Quote with id ${id} not found`
             });
         }
+        if (quote.estado) {
+            await quote.update({
+                estado : false
+            })    
+        }
+        else{
+            await quote.update({
+                estado : true
+            })
+        }
+        
 
-        await quote.destroy(body)
 
-        return res.status(200).json({
-            ok: 200,
-            message: 'Quote destroy successfully'
-        })
+        res.status(200).json({
+            ok: true,
+            msg: "Quote status change successfully"
+        });
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({
+        console.log(error)
+        res.status(500).json({
             ok: false,
-            err: 'Internal server error'
+            msg: "Internal server error"
         })
     }
 }
-
 module.exports = {
     getQuote,
     getOneQuote,

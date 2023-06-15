@@ -25,7 +25,8 @@ const Company = db.define('companias', {
         type: DataTypes.STRING
     },
     estado: {
-        type: DataTypes.BOOLEAN
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
     }
 });
 

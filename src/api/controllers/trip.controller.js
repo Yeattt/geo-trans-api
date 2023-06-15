@@ -116,29 +116,39 @@ const updateTrip = async(req, res) => {
 
 const deleteTrip = async(req, res) => {
     const { id } = req.params;
-    const { body } = req
+
 
     try {
         const trip = await Trip.findByPk(id);
 
         if (!trip) {
-            return res.status(404).json({
+            return res.status(400).json({
                 ok: false,
-                err: `Trip with id ${id} not found`
+                msg: `Trip with id ${id} not found`
             });
         }
+        if (trip.estado) {
+            await trip.update({
+                estado : false
+            })    
+        }
+        else{
+            await trip.update({
+                estado : true
+            })
+        }
+        
 
-        await trip.destroy(body);
 
-        return res.status(200).json({
-            ok: 200,
-            message: 'Trip deleted successfully'
-        })
+        res.status(200).json({
+            ok: true,
+            msg: "Trip status change successfully"
+        });
     } catch (error) {
-        console.log(error);
-        return res.status(500).json({
+        console.log(error)
+        res.status(500).json({
             ok: false,
-            err: 'Internal server error'
+            msg: "Internal server error"
         })
     }
 }
