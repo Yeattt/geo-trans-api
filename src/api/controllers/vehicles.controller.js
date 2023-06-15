@@ -1,7 +1,7 @@
 const Vehicle = require('../models/vehicles');
 
 
-const getVehicle = async(req, res) => {
+const getVehicle = async (req, res) => {
     try {
         const vehicles = await Vehicle.findAll();
 
@@ -23,14 +23,56 @@ const getVehicle = async(req, res) => {
         });
     }
 }
-const createVehicle = async(req, res) => {
+
+const getOneVehicle = async (req, res) => {
+    const { placa } = req.params;
+    try {
+        const vehicle = await Vehicle.findOne({
+            where: {
+                placa
+            }
+        });
+
+        if (!vehicle) {
+            return res.status(400).json({
+                ok: false,
+                message: 'Vehicle not found'
+            });
+        }
+        return res.status(200).json({
+            ok: true,
+            vehicles: [
+                vehicle
+            ]
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            ok: false,
+            message: 'Internal server error'
+        });
+
+    }
+}
+
+const createVehicle = async (req, res) => {
     const { body } = req;
+    
     try {
         const existVehicle = await Vehicle.findOne({
             where: {
                 placa: body.placa,
             }
         });
+
+        if (existVehicle) {
+            return res.status(400).json({
+                ok: false,
+                message: 'Vehicle already registered'
+            });
+        }
+
         const vehicle = await Vehicle.create(body);
         await vehicle.save();
         res.status(200).json({
@@ -46,32 +88,8 @@ const createVehicle = async(req, res) => {
         });
     }
 }
-const getOneVehicle = async(req, res) => {
-    const { id } = req.params;
-    try {
-        const vehicle = await Vehicle.findByPk(id);
-        if (!vehicle) {
-            return res.status(400).json({
-                ok: false,
-                message: 'Vehicle not found'
-            });
-        }
-        return res.status(200).json({
-            ok: true,
-            vehicle
-        });
 
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({
-            ok: false,
-            message: 'Internal server error'
-        });
-
-    }
-}
-
-const updateVehicle = async(req, res) => {
+const updateVehicle = async (req, res) => {
     const { id } = req.params;
     const { body } = req;
     try {
@@ -96,7 +114,7 @@ const updateVehicle = async(req, res) => {
     }
 }
 
-const deleteVehicle = async(req, res) => {
+const deleteVehicle = async (req, res) => {
     const { id } = req.params;
     try {
         const vehicle = await Vehicle.findByPk(id);

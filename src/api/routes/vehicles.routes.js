@@ -10,12 +10,12 @@ const {
 } = require('../controllers/vehicles.controller');
 
 router.get('/', getVehicle);
-router.get('/', getOneVehicle);
+router.get('/:placa', getOneVehicle);
 router.post('/create', [
     check('tipoCamion', 'Type of truck required ').notEmpty(),
     check('tipoCamion', 'The truck type field must be a text string ').isString(),
     check('modelo', 'Required Model ').notEmpty(),
-    check('modelo', 'The model field must be a text string.').isString(),
+    check('modelo', 'The model field must be a text number.').isNumeric(),
     check('marca', 'Required brand').notEmpty(),
     check('marca', 'The brand field must be a text string').isString(),
     check('placa', 'Required plate').notEmpty(),

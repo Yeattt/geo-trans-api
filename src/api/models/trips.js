@@ -42,4 +42,4 @@ const Trips = db.define('viajes', {
     }
 });
 
-module.exports = Trips
+module.exports = Trips;
