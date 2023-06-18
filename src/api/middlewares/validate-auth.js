@@ -11,14 +11,15 @@ const validateAuth = (req, res, next) => {
    }
 
    try {
-      const { uid } = jwt.verify(token, process.env.SECRET_KEY);
+      const { uid, nombre } = jwt.verify(token, process.env.SECRET_KEY);
 
       req.uid = uid;
+      req.nombre = nombre;
 
       next();
    } catch (error) {
       console.log(error);
-      return res.stats(401).json({
+      return res.status(401).json({
          ok: false,
          err: 'Invalid token'
       });
