@@ -65,10 +65,12 @@ const signIn = async(req, res) => {
             });
         }
 
-        const token = await generateJWT(user.id);
+        const token = await generateJWT(user.id, user.nombre);
 
         res.status(200).json({
             ok: true,
+            uid: user.id,
+            nombre: user.email,
             token
         });
     } catch (error) {
