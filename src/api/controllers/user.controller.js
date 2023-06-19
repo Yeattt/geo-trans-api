@@ -8,7 +8,7 @@ const activateUser = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const user = await User.findByPk();
+        const user = await User.findByPk(id);
 
         if (!user) {
             return res.status(404).json({
@@ -140,7 +140,6 @@ const createUser = async (req, res) => {
         const user = await User.create(body);
 
         user.contrasena = bcrypt.hashSync(body.contrasena, 10);
-        user.registroPendiente = false;
 
         await user.save();
 
