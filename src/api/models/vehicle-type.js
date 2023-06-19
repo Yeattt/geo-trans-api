@@ -11,6 +11,10 @@ const VehiclesType = db.define('tipos_camion', {
    nombre: {
       type: DataTypes.STRING,
       allowNull: false
+   },
+   estado: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
    }
 });
 
