@@ -4,7 +4,46 @@ const Role = require('../models/role');
 const Company = require('../models/company');
 const Vehicle = require('../models/vehicles');
 
-const getUsers = async(req, res) => {
+const activateUser = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const user = await User.findByPk();
+
+        if (!user) {
+            return res.status(404).json({
+                ok: false,
+                message: `User with id ${id} not found`
+            });
+        }
+
+        if (!user.registroPendiente) {
+            return res.status(400).json({
+                ok: false,
+                message: 'This user is already allowed to be registered on the application'
+            });
+        }
+
+        await user.update({
+            registroPendiente: false
+        });
+
+        await user.save();
+
+        res.status(200).json({
+            ok: true,
+            message: 'User allowed to be registered successfully'
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            err: 'Internal server error'
+        });
+    }
+}
+
+const getUsers = async (req, res) => {
     try {
         const users = await User.findAll();
 
@@ -28,7 +67,7 @@ const getUsers = async(req, res) => {
     }
 }
 
-const getOneUser = async(req, res) => {
+const getOneUser = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -54,7 +93,7 @@ const getOneUser = async(req, res) => {
     }
 }
 
-const createUser = async(req, res) => {
+const createUser = async (req, res) => {
     const { body } = req;
 
     try {
@@ -101,6 +140,7 @@ const createUser = async(req, res) => {
         const user = await User.create(body);
 
         user.contrasena = bcrypt.hashSync(body.contrasena, 10);
+        user.registroPendiente = false;
 
         await user.save();
 
@@ -117,7 +157,7 @@ const createUser = async(req, res) => {
     }
 }
 
-const updateUser = async(req, res) => {
+const updateUser = async (req, res) => {
     try {
 
     } catch (error) {
@@ -129,7 +169,7 @@ const updateUser = async(req, res) => {
     }
 }
 
-const deleteUser = async(req, res) => {
+const deleteUser = async (req, res) => {
     const { id } = req.params;
 
 
@@ -144,15 +184,15 @@ const deleteUser = async(req, res) => {
         }
         if (user.estado) {
             await user.update({
-                estado : false
-            })    
-        }
-        else{
-            await user.update({
-                estado : true
+                estado: false
             })
         }
-        
+        else {
+            await user.update({
+                estado: true
+            })
+        }
+
 
 
         res.status(200).json({
@@ -170,6 +210,7 @@ const deleteUser = async(req, res) => {
 
 
 module.exports = {
+    activateUser,
     getUsers,
     getOneUser,
     createUser,
