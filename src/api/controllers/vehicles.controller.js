@@ -1,5 +1,5 @@
 const Vehicle = require('../models/vehicles');
-
+const VehiclesType = require('../models/vehicle-type');
 
 const getVehicle = async (req, res) => {
     try {
@@ -73,8 +73,18 @@ const createVehicle = async (req, res) => {
             });
         }
 
+        const vehicleType = await VehiclesType.findByPk(body.tipoCamion);
+
+        if (!vehicleType) {
+            return res.status(404).json({
+                ok: false,
+                message: 'Vehicle type not found'
+            });
+        }
+
         const vehicle = await Vehicle.create(body);
         await vehicle.save();
+
         res.status(200).json({
             ok: true,
             message: 'Vehicle created sucessfully'
