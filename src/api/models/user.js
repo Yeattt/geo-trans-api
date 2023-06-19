@@ -46,6 +46,10 @@ const User = db.define('usuarios', {
             key: 'id'
         }
     },
+    registroPendiente: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true
+    },
     estado: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
