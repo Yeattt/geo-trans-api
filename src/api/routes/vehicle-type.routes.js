@@ -10,6 +10,6 @@ router.post('/create', createVehicleType);
 
 router.put('/update/:id', updateVehicleType);
 
-router.put('/delete/:id', deleteVehicleType);
+router.delete('/delete/:id', deleteVehicleType);
 
 module.exports = router;
