@@ -13,6 +13,7 @@ const roleRoutes = require('../routes/role.routes');
 const tripRoutes = require('../routes/trip.routes');
 const userRoutes = require('../routes/user.routes');
 const vehicleRoutes = require('../routes/vehicles.routes');
+const vehicleTypeRoutes = require('../routes/vehicle-type.routes');
 
 class Server {
     constructor() {
@@ -27,7 +28,8 @@ class Server {
             roles: '/api/roles',
             trips: '/api/trips',
             users: '/api/users',
-            vehicles: '/api/vehicles'
+            vehicles: '/api/vehicles',
+            vehiclesTypes: '/api/trucks/types'
         }
 
         this.middlewares();
@@ -60,6 +62,7 @@ class Server {
         this.app.use(this.apiRoutes.trips, tripRoutes);
         this.app.use(this.apiRoutes.users, userRoutes);
         this.app.use(this.apiRoutes.vehicles, vehicleRoutes);
+        this.app.use(this.apiRoutes.vehiclesTypes, vehicleTypeRoutes);
     }
 
     listen() {
