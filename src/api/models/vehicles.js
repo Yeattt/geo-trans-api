@@ -1,14 +1,12 @@
 const { DataTypes } = require('sequelize')
-const db = require('../../config/db')
+const db = require('../../config/db');
+const VehiclesType = require('./vehicle-type');
 
 const Vehicle = db.define('vehiculos', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
-    },
-    tipoCamion: {
-        type: DataTypes.STRING
     },
     modelo: {
         type: DataTypes.INTEGER
@@ -31,9 +29,19 @@ const Vehicle = db.define('vehiculos', {
     soat: {
         type: DataTypes.STRING
     },
+    tipoCamion: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: VehiclesType,
+            key: 'id'
+        }
+    },
     estado: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
     }
-})
+});
+
+Vehicle.belongsTo(VehiclesType, { foreignKey: 'tipoCamion', targetKey: 'id' });
+
 module.exports = Vehicle;
