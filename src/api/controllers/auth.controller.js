@@ -56,6 +56,13 @@ const signIn = async(req, res) => {
             });
         }
 
+        if (user.registroPendiente) {
+            return res.status(401).json({
+                ok: false,
+                err: 'Your account is not allowed to be registered yet'
+            });
+        }
+
         const matchPassword = bcrypt.compareSync(contrasena, user.contrasena);
 
         if (!matchPassword) {
