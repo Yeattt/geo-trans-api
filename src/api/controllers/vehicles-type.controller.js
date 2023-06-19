@@ -125,7 +125,7 @@ const deleteVehicleType = async (req, res) => {
       const vehicleType = await VehiclesType.findByPk(id);
 
       if (!vehicleType) {
-         return res.status(400).json({
+         return res.status(404).json({
             ok: false,
             message: `Vehicle type with id ${id} not found`
          });
