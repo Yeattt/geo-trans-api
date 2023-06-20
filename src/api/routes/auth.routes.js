@@ -7,8 +7,8 @@ const { signUp, signIn, revalidateToken } = require('../controllers/auth.control
 const { validateAuth } = require('../middlewares/validate-auth');
 
 router.post('/signup', [
-   check('email', 'Invalid email format').isEmail(),
-   check('contrasena', 'The password must be bigger than 4 digits').isLength({ min: 4 }),
+   check('email', 'Formato de correo inválido').isEmail(),
+   check('contrasena', 'La contraseña debe tener más de 4 dígitos').isLength({ min: 4 }),
    validateFields
 ], signUp);
 

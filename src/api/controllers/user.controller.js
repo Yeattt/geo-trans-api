@@ -156,14 +156,42 @@ const createUser = async (req, res) => {
     }
 }
 
-const updateUser = async (req, res) => {
-    try {
+// const updateUser = async (req, res) => {
+//     try {
 
+//     } catch (error) {
+//         console.log(error);
+//         return res.status(500).json({
+//             ok: false,
+//             err: 'Internal server error'
+//         });
+//     }
+// }
+const updateUser = async(req, res) => {
+    const { id } = req.params;
+    const { body } = req;
+
+    try {
+        const user = await User.findByPk(id);
+
+        if (!user) {
+            return res.status(400).json({
+                ok: false,
+                msg: `User with id ${id} not found`
+            });
+        }
+
+        await user.update(body);
+
+        res.status(200).json({
+            ok: true,
+            msg: 'User updated successfully'
+        });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            err: 'Internal server error'
+            msg: "Internal server error"
         });
     }
 }
