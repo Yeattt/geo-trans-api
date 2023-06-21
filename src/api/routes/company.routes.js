@@ -5,7 +5,7 @@ const { validateFields } = require('../middlewares/validate-fields')
 const { getCompanies, getOneCompany, createCompany, updateCompany, changeStatus } = require('../controllers/company.controller');
 
 router.get('/', getCompanies);
-router.get('/:id', getOneCompany);
+router.get('/:nit', getOneCompany);
 router.post('/create', [
     check('nit', 'The Nit only accepts numbers').isNumeric(),
     check('nit', 'The Nit is required').notEmpty(),

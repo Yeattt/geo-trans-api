@@ -4,7 +4,7 @@ const { activateUser, getUsers, getOneUser, createUser, updateUser, deleteUser }
 
 router.get('/', getUsers);
 
-router.get('/:id', getOneUser);
+router.get('/:documento', getOneUser);
 
 router.post('/create', createUser);
 

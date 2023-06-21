@@ -5,7 +5,7 @@ const { validateFields } = require('../middlewares/validate-fields');
 const { getClients, getOneClient, updateClient, createClient, deleteClient } = require('../controllers/client.controller');
 
 router.get('/', getClients);
-router.get('/:id', getOneClient);
+router.get('/:documento', getOneClient);
 router.post('/create/', [
     check('documento', 'The document field is required').notEmpty(),
     check('documento', 'The document field only receives numbers').isNumeric(),

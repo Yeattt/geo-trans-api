@@ -4,7 +4,7 @@ const { getPermissions, getOnePermission, createPermission, updatePermission, de
 
 router.get('/', getPermissions);
 
-router.get('/:id', getOnePermission);
+router.get('/:nombre', getOnePermission);
 
 router.post('/create', createPermission);
 
