@@ -68,15 +68,20 @@ const getUsers = async (req, res) => {
 }
 
 const getOneUser = async (req, res) => {
-    const { id } = req.params;
+    const { documento } = req.params;
 
     try {
-        const user = await User.findByPk(id, { include: Role });
+        const user = await User.findOne({
+            where: {
+                documento
+            },
+            include: Role
+        });
 
         if (!user) {
             return res.status(404).json({
                 ok: false,
-                err: `User with id ${id} not found`
+                err: `Usuario con documento ${documento} no encontrado`
             });
         }
 
@@ -156,18 +161,7 @@ const createUser = async (req, res) => {
     }
 }
 
-// const updateUser = async (req, res) => {
-//     try {
-
-//     } catch (error) {
-//         console.log(error);
-//         return res.status(500).json({
-//             ok: false,
-//             err: 'Internal server error'
-//         });
-//     }
-// }
-const updateUser = async(req, res) => {
+const updateUser = async (req, res) => {
     const { id } = req.params;
     const { body } = req;
 
@@ -198,7 +192,6 @@ const updateUser = async(req, res) => {
 
 const deleteUser = async (req, res) => {
     const { id } = req.params;
-
 
     try {
         const user = await User.findByPk(id);

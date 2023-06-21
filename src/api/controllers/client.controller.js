@@ -26,15 +26,19 @@ const getClients = async(req, res) => {
 
 
 const getOneClient = async(req, res) => {
-    const { id } = req.params;
+    const { documento } = req.params;
 
     try {
-        const client = await Client.findByPk(id);
+        const client = await Client.findOne({
+            where: {
+                documento
+            }
+        });
 
         if (!client) {
             return res.status(404).json({
                 ok: false,
-                message: 'Client not found'
+                message: `Cliente con documento ${documento} no encontrado`
             });
         }
 

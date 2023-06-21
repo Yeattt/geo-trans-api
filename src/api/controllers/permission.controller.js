@@ -25,15 +25,19 @@ const getPermissions = async (req, res) => {
 }
 
 const getOnePermission = async (req, res) => {
-   const { id } = req.params;
+   const { nombre } = req.params;
 
    try {
-      const permission = await Permission.findByPk(id);
+      const permission = await Permission.findOne({
+         where: {
+            nombre
+         }
+      });
 
       if (!permission) {
          return res.status(404).json({
             ok: false,
-            message: `Permission with id ${id} not found`
+            message: `Permiso con nombre ${nombre} no encontrado`
          });
       }
 

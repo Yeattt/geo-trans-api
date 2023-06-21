@@ -71,18 +71,20 @@ const getRoles = async (req, res) => {
 }
 
 const getOneRole = async (req, res) => {
-   const { id } = req.params;
+   const { nombre } = req.params;
 
    try {
       const role = await Role.findOne({
-         where: { id: id },
+         where: {
+            nombre
+         },
          include: Permission
       });
 
       if (!role) {
          return res.status(404).json({
             ok: false,
-            message: `No role found with id ${id}`
+            message: `Rol con nombre ${nombre} no encontrado`
          });
       }
 
@@ -135,7 +137,7 @@ const createRole = async (req, res) => {
 const updateRole = async (req, res) => {
    const { id } = req.params;
    const { body } = req;
-   
+
    try {
       const role = await Role.findByPk(id);
 
@@ -167,37 +169,37 @@ const deleteRole = async (req, res) => {
    const { id } = req.params;
 
    try {
-       const role = await Role.findByPk(id);
+      const role = await Role.findByPk(id);
 
-       if (!role) {
-           return res.status(400).json({
-               ok: false,
-               msg: `Role with id ${id} not found`
-           });
-       }
-       if (role.estado) {
-           await role.update({
-               estado : false
-           })    
-       }
-       else{
-           await role.update({
-               estado : true
-           })
-       }
-       
+      if (!role) {
+         return res.status(400).json({
+            ok: false,
+            msg: `Role with id ${id} not found`
+         });
+      }
+      if (role.estado) {
+         await role.update({
+            estado: false
+         })
+      }
+      else {
+         await role.update({
+            estado: true
+         })
+      }
 
 
-       res.status(200).json({
-           ok: true,
-           msg: "Role status change successfully"
-       });
+
+      res.status(200).json({
+         ok: true,
+         msg: "Role status change successfully"
+      });
    } catch (error) {
-       console.log(error)
-       res.status(500).json({
-           ok: false,
-           msg: "Internal server error"
-       })
+      console.log(error)
+      res.status(500).json({
+         ok: false,
+         msg: "Internal server error"
+      })
    }
 }
 

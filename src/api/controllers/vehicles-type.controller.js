@@ -37,7 +37,7 @@ const getOneVehicleType = async (req, res) => {
       if (!vehicleType) {
          return res.status(400).json({
             ok: false,
-            message: 'Vehicle type not found'
+            message: `Tipo de vehículo con nombre ${nombre} no encontrado`
          });
       }
 

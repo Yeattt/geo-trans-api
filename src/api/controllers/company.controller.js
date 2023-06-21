@@ -1,9 +1,9 @@
 const Company = require('../models/company')
 
-const getCompanies = async(req, res)=>{
+const getCompanies = async (req, res) => {
     try {
         const companies = await Company.findAll();
-        if(!companies){
+        if (!companies) {
             return res.status(404).json({
                 ok: false,
                 msg: "There are not registered companies"
@@ -23,16 +23,20 @@ const getCompanies = async(req, res)=>{
     }
 }
 
-const getOneCompany = async(req, res)=>{
-    const { id } = req.params;
+const getOneCompany = async (req, res) => {
+    const { nit } = req.params;
     try {
-        const company = await Company.findByPk(id)
+        const company = await Company.findOne({
+            where: {
+                nit
+            }
+        });
 
         if (!company) {
             return res.status(404).json({
                 ok: false,
-                msg: "Company not found"
-            })
+                msg: `Compañía con nit ${nit} no encontrada`
+            });
         }
 
         res.status(200).json({
@@ -44,32 +48,32 @@ const getOneCompany = async(req, res)=>{
         return res.status(500).json({
             ok: false,
             msg: "Internal server error"
-        })
+        });
     }
 }
 
-const createCompany= async(req, res)=>{
+const createCompany = async (req, res) => {
     const { body } = req;
     try {
-       const companyExists = await Company.findOne({
-        where: {
-            nit: body.nit
-        }
-       });
-       if(companyExists){
-        return res.status(404).json({
-            ok: false,
-            msg: "Company already registered"
+        const companyExists = await Company.findOne({
+            where: {
+                nit: body.nit
+            }
         });
-       }
+        if (companyExists) {
+            return res.status(404).json({
+                ok: false,
+                msg: "Company already registered"
+            });
+        }
 
-       const company = await Company.create(body);
-       await company.save();
+        const company = await Company.create(body);
+        await company.save();
 
-       res.status(200).json({
-        ok: true,
-        msg: "Company created successfully"
-       })
+        res.status(200).json({
+            ok: true,
+            msg: "Company created successfully"
+        })
     } catch (error) {
         console.log(error)
         return res.status(500).json({
@@ -79,7 +83,7 @@ const createCompany= async(req, res)=>{
     }
 }
 
-const updateCompany = async(req, res) => {
+const updateCompany = async (req, res) => {
     const { id } = req.params;
     const { body } = req;
 
@@ -108,9 +112,8 @@ const updateCompany = async(req, res) => {
     }
 }
 
-const changeStatus = async(req, res) => {
+const changeStatus = async (req, res) => {
     const { id } = req.params;
-
 
     try {
         const company = await Company.findByPk(id);
@@ -123,16 +126,14 @@ const changeStatus = async(req, res) => {
         }
         if (company.estado) {
             await company.update({
-                estado : false
-            })    
-        }
-        else{
-            await company.update({
-                estado : true
+                estado: false
             })
         }
-        
-
+        else {
+            await company.update({
+                estado: true
+            })
+        }
 
         res.status(200).json({
             ok: true,
