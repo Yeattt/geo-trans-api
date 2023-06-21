@@ -10,7 +10,7 @@ const User = db.define('usuarios', {
         autoIncrement: true,
         primaryKey: true
     },
-    dni: {
+    documento: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
