@@ -244,6 +244,13 @@ etag@~1.8.1:
   resolved "https://registry.npmjs.org/etag/-/etag-1.8.1.tgz"
   integrity sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==
 
+express-fileuploader@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/express-fileuploader/-/express-fileuploader-0.0.7.tgz#dec27c1fe668ebdd45281dfcaf3897eb7133e29d"
+  integrity sha512-l2pj7cpm91tPK5HTIGevionW/fK96o1DM1ZKjjZ7gKHeSXs0pwtSnSahUzwYL88LE20aGYYdZLrmjdnIMq3TlA==
+  dependencies:
+    node-uuid "~1.4.1"
+
 express-validator@^7.0.1:
   version "7.0.1"
   resolved "https://registry.npmjs.org/express-validator/-/express-validator-7.0.1.tgz"
@@ -599,6 +606,11 @@ negotiator@0.6.3:
   version "0.6.3"
   resolved "https://registry.npmjs.org/negotiator/-/negotiator-0.6.3.tgz"
   integrity sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==
+
+node-uuid@~1.4.1:
+  version "1.4.8"
+  resolved "https://registry.yarnpkg.com/node-uuid/-/node-uuid-1.4.8.tgz#b040eb0923968afabf8d32fb1f17f1167fdab907"
+  integrity sha512-TkCET/3rr9mUuRp+CpO7qfgT++aAxfDRaalQhwPFzI9BY/2rCDn6OfpZOVggi1AXfTPpfkTrg5f5WQx5G1uLxA==
 
 nodemon@^2.0.22:
   version "2.0.22"
