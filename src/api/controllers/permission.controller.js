@@ -7,7 +7,7 @@ const getPermissions = async (req, res) => {
       if (!permissions) {
          return res.status(404).json({
             ok: false,
-            message: 'No permissions registered yet'
+            message: 'No hay permisos registrados en este momento'
          });
       }
 
@@ -19,7 +19,7 @@ const getPermissions = async (req, res) => {
       console.log(error);
       return res.status(500).json({
          ok: false,
-         err: 'Internal server error'
+         message: 'Internal server error'
       });
    }
 }
@@ -49,7 +49,7 @@ const getOnePermission = async (req, res) => {
       console.log(error);
       return res.status(500).json({
          ok: false,
-         err: 'Internal server error'
+         message: 'Internal server error'
       });
    }
 }
@@ -67,7 +67,7 @@ const createPermission = async (req, res) => {
       if (existPermission) {
          return res.status(400).json({
             ok: false,
-            message: 'Permission already registered with that name'
+            message: 'Ya existe un permiso registrado con ese nombre'
          });
       }
 
@@ -76,13 +76,13 @@ const createPermission = async (req, res) => {
 
       res.status(200).json({
          ok: true,
-         message: 'Permission created successfully'
+         message: 'Permiso creado satisfactoriamente'
       });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
          ok: false,
-         err: 'Internal server error'
+         message: 'Internal server error'
       });
    }
 }
@@ -97,7 +97,7 @@ const updatePermission = async (req, res) => {
       if (!permission) {
          return res.status(404).json({
             ok: false,
-            message: `Permission with id ${id} not found`
+            message: `Permiso con id ${id} no encontrado`
          });
       }
 
@@ -107,13 +107,13 @@ const updatePermission = async (req, res) => {
 
       res.status(200).json({
          ok: true,
-         message: 'Permission updated successfully'
+         message: 'Permiso actualizado satisfactoriamente'
       });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
          ok: false,
-         err: 'Internal server error'
+         message: 'Internal server error'
       });
    }
 }
@@ -122,39 +122,39 @@ const deletePermission = async (req, res) => {
    const { id } = req.params;
 
 
-    try {
-        const permission = await Permission.findByPk(id);
+   try {
+      const permission = await Permission.findByPk(id);
 
-        if (!permission) {
-            return res.status(400).json({
-                ok: false,
-                msg: `Permission with id ${id} not found`
-            });
-        }
-        if (permission.estado) {
-            await permission.update({
-                estado : false
-            })    
-        }
-        else{
-            await permission.update({
-                estado : true
-            })
-        }
-        
-
-
-        res.status(200).json({
-            ok: true,
-            msg: "Permission status change successfully"
-        });
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
+      if (!permission) {
+         return res.status(400).json({
             ok: false,
-            msg: "Internal server error"
-        })
-    }
+            message: `Permiso con id ${id} no encontrado`
+         });
+      }
+      if (permission.estado) {
+         await permission.update({
+            estado: false
+         })
+      }
+      else {
+         await permission.update({
+            estado: true
+         })
+      }
+
+
+
+      res.status(200).json({
+         ok: true,
+         message: 'Estado del permiso actualizado satisfactoriamente'
+      });
+   } catch (error) {
+      console.log(error)
+      res.status(500).json({
+         ok: false,
+         message: "Internal server error"
+      })
+   }
 }
 
 module.exports = {

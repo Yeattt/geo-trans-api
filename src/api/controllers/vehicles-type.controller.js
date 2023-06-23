@@ -7,7 +7,7 @@ const getVehiclesType = async (req, res) => {
       if (!vehiclesType) {
          return res.status(400).json({
             ok: false,
-            message: 'There are no vehicles type registered'
+            message: 'No hay tipos de vehículos registrados en este momento'
          });
       }
 
@@ -19,14 +19,14 @@ const getVehiclesType = async (req, res) => {
       console.log(error);
       return res.status(500).json({
          ok: false,
-         err: 'Internal server error'
+         message: 'Internal server error'
       });
    }
 }
 
 const getOneVehicleType = async (req, res) => {
    const { nombre } = req.params;
-   
+
    try {
       const vehicleType = await VehiclesType.findOne({
          where: {
@@ -49,14 +49,14 @@ const getOneVehicleType = async (req, res) => {
       console.log(error);
       return res.status(500).json({
          ok: false,
-         err: 'Internal server error'
+         message: 'Internal server error'
       });
    }
 }
 
 const createVehicleType = async (req, res) => {
    const { body } = req;
-   
+
    try {
       const existsVehicle = await VehiclesType.findOne({
          where: {
@@ -67,7 +67,7 @@ const createVehicleType = async (req, res) => {
       if (existsVehicle) {
          return res.status(400).json({
             ok: false,
-            message: 'Vehicle type already registered'
+            message: 'Ya hay un tipo de vehículo registrado con ese nombre'
          });
       }
 
@@ -77,13 +77,13 @@ const createVehicleType = async (req, res) => {
 
       res.status(200).json({
          ok: true,
-         message: 'Vehicle type created successfully'
+         message: 'Tipo de vehículo registrado satisfactoriamente'
       });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
          ok: false,
-         err: 'Internal server error'
+         message: 'Internal server error'
       });
    }
 }
@@ -91,14 +91,14 @@ const createVehicleType = async (req, res) => {
 const updateVehicleType = async (req, res) => {
    const { id } = req.params;
    const { body } = req;
-   
+
    try {
       const vehicleType = await VehiclesType.findByPk(id);
 
       if (!vehicleType) {
          return res.status(400).json({
             ok: false,
-            message: `Vehicle type with id ${id} not found`
+            message: `Tipo de vehículo con id ${id} no encontrado`
          });
       }
 
@@ -107,27 +107,27 @@ const updateVehicleType = async (req, res) => {
 
       res.status(200).json({
          ok: true,
-         message: 'Vehicle type updated successfully'
+         message: 'Tipo de vehículo actualizado satisfactoriamente'
       });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
          ok: false,
-         err: 'Internal server error'
+         message: 'Internal server error'
       });
    }
 }
 
 const deleteVehicleType = async (req, res) => {
    const { id } = req.params;
-   
+
    try {
       const vehicleType = await VehiclesType.findByPk(id);
 
       if (!vehicleType) {
          return res.status(404).json({
             ok: false,
-            message: `Vehicle type with id ${id} not found`
+            message: `Tipo de vehículo con id ${id} no encontrado`
          });
       }
 
@@ -145,13 +145,13 @@ const deleteVehicleType = async (req, res) => {
 
       res.status(200).json({
          ok: true,
-         message: 'Vehicle type status chaged successfully'
+         message: 'Estado del tipo de vehículo actualizado satisfactoriamente'
       });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
          ok: false,
-         err: 'Internal server error'
+         message: 'Internal server error'
       });
    }
 }

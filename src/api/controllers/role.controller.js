@@ -11,7 +11,7 @@ const assignPermissionsToRole = async (req, res) => {
       if (!role) {
          return res.status(404).json({
             ok: false,
-            message: `No role with id ${id} found`
+            message: `Rol con id ${id} no encontrado`
          });
       }
 
@@ -24,7 +24,7 @@ const assignPermissionsToRole = async (req, res) => {
       if (permissionsToAssign.length === 0) {
          return res.status(404).json({
             ok: false,
-            message: 'No permissions were found with these ids'
+            message: 'No se encontraron permisos con esos id'
          });
       }
 
@@ -33,13 +33,13 @@ const assignPermissionsToRole = async (req, res) => {
 
       res.status(200).json({
          ok: true,
-         message: 'Permissions assigned successfully'
+         message: 'Permisos asignados satisfactoriamente'
       });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
          ok: false,
-         err: 'Internal server error'
+         message: 'Internal server error'
       });
    }
 }
@@ -53,7 +53,7 @@ const getRoles = async (req, res) => {
       if (!roles) {
          return res.status(404).json({
             ok: false,
-            message: 'There are no roles registered'
+            message: 'No hay roles registrados en este momento'
          });
       }
 
@@ -65,7 +65,7 @@ const getRoles = async (req, res) => {
       console.log(error);
       return res.status(500).json({
          ok: false,
-         err: 'Internal server error'
+         message: 'Internal server error'
       });
    }
 }
@@ -96,7 +96,7 @@ const getOneRole = async (req, res) => {
       console.log(error);
       return res.status(500).json({
          ok: false,
-         err: 'Internal server error'
+         message: 'Internal server error'
       });
    }
 }
@@ -114,7 +114,7 @@ const createRole = async (req, res) => {
       if (existRole) {
          return res.status(400).json({
             ok: false,
-            message: 'Role already registered with that name'
+            message: 'Ya existe un rol registrado con ese nombre'
          });
       }
 
@@ -123,13 +123,13 @@ const createRole = async (req, res) => {
 
       res.status(200).json({
          ok: true,
-         message: 'Role created successfully'
+         message: 'Rol creado satisfactoriamente'
       });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
          ok: false,
-         err: 'Internal server error'
+         message: 'Internal server error'
       });
    }
 }
@@ -144,7 +144,7 @@ const updateRole = async (req, res) => {
       if (!role) {
          return res.status(404).json({
             ok: false,
-            message: `Role with id ${id} not found`
+            message: `Rol con id id ${id} no encontrado`
          });
       }
 
@@ -154,13 +154,13 @@ const updateRole = async (req, res) => {
 
       res.status(200).json({
          ok: true,
-         message: 'Role updated successfully'
+         message: 'Rol actualizado satisfactoriamente'
       });
    } catch (error) {
       console.log(error);
       return res.status(500).json({
          ok: false,
-         err: 'Internal server error'
+         message: 'Internal server error'
       });
    }
 }
@@ -174,7 +174,7 @@ const deleteRole = async (req, res) => {
       if (!role) {
          return res.status(400).json({
             ok: false,
-            msg: `Role with id ${id} not found`
+            message: `Rol con id ${id} no encontrado`
          });
       }
       if (role.estado) {
@@ -192,13 +192,13 @@ const deleteRole = async (req, res) => {
 
       res.status(200).json({
          ok: true,
-         msg: "Role status change successfully"
+         message: 'Estado del rol actualizado satisfactoriamente'
       });
    } catch (error) {
       console.log(error)
       res.status(500).json({
          ok: false,
-         msg: "Internal server error"
+         message: "Internal server error"
       })
    }
 }

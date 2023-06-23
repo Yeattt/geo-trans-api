@@ -6,7 +6,7 @@ const getCompanies = async (req, res) => {
         if (!companies) {
             return res.status(404).json({
                 ok: false,
-                msg: "There are not registered companies"
+                message: 'No hay compañías registradas en este momento'
             })
         }
 
@@ -18,7 +18,7 @@ const getCompanies = async (req, res) => {
         console.log(error)
         return res.status(500).json({
             ok: false,
-            msg: "Internal server error"
+            message: 'Internal server error'
         });
     }
 }
@@ -35,7 +35,7 @@ const getOneCompany = async (req, res) => {
         if (!company) {
             return res.status(404).json({
                 ok: false,
-                msg: `Compañía con nit ${nit} no encontrada`
+                message: `Compañía con nit ${nit} no encontrada`
             });
         }
 
@@ -47,7 +47,7 @@ const getOneCompany = async (req, res) => {
         console.log(error)
         return res.status(500).json({
             ok: false,
-            msg: "Internal server error"
+            message: "Internal server error"
         });
     }
 }
@@ -63,7 +63,7 @@ const createCompany = async (req, res) => {
         if (companyExists) {
             return res.status(404).json({
                 ok: false,
-                msg: "Company already registered"
+                message: 'Ya existe una compañía registrada con ese nit'
             });
         }
 
@@ -72,13 +72,13 @@ const createCompany = async (req, res) => {
 
         res.status(200).json({
             ok: true,
-            msg: "Company created successfully"
+            message: 'Compañía registrada satisfactoriamente'
         })
     } catch (error) {
         console.log(error)
         return res.status(500).json({
             ok: false,
-            msg: "Internal server error"
+            message: 'Internal server error'
         })
     }
 }
@@ -93,7 +93,7 @@ const updateCompany = async (req, res) => {
         if (!company) {
             return res.status(400).json({
                 ok: false,
-                msg: `Company with id ${id} not found`
+                message: `Compañía con id ${id} no encontrada`
             });
         }
 
@@ -101,13 +101,13 @@ const updateCompany = async (req, res) => {
 
         res.status(200).json({
             ok: true,
-            msg: 'Company updated successfully'
+            message: 'Compañía actualizada satisfactoriamente'
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            msg: "Internal server error"
+            message: "Internal server error"
         });
     }
 }
@@ -121,7 +121,7 @@ const changeStatus = async (req, res) => {
         if (!company) {
             return res.status(400).json({
                 ok: false,
-                msg: `Company with id ${id} not found`
+                message: `Compañía con id ${id} no encontrada`
             });
         }
         if (company.estado) {
@@ -137,13 +137,13 @@ const changeStatus = async (req, res) => {
 
         res.status(200).json({
             ok: true,
-            msg: "Company status change successfully"
+            message: 'Estado de la compañía actualizado satisfactoriamente'
         });
     } catch (error) {
         console.log(error)
         res.status(500).json({
             ok: false,
-            msg: "Internal server error"
+            message: "Internal server error"
         })
     }
 }

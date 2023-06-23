@@ -3,7 +3,7 @@ const { generateJWT } = require('../helpers/generate-jwt');
 
 const User = require('../models/user');
 
-const signUp = async(req, res) => {
+const signUp = async (req, res) => {
     const { body } = req;
 
     try {
@@ -16,7 +16,7 @@ const signUp = async(req, res) => {
         if (userExists) {
             return res.status(400).json({
                 ok: false,
-                err: 'User already registered'
+                message: 'Ya existe un usuario registrado con ese correo'
             });
         }
 
@@ -28,18 +28,18 @@ const signUp = async(req, res) => {
 
         res.status(200).json({
             ok: true,
-            message: 'User registered successfully'
+            message: 'Usuario registrado satisfactoriamente'
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            err: 'Internal server error'
+            message: 'Internal server error'
         });
     }
 }
 
-const signIn = async(req, res) => {
+const signIn = async (req, res) => {
     const { email, contrasena } = req.body;
 
     try {
@@ -52,14 +52,14 @@ const signIn = async(req, res) => {
         if (!user) {
             return res.status(400).json({
                 ok: false,
-                err: 'Incorrect credentials'
+                message: 'Credenciales incorrectas'
             });
         }
 
         if (user.registroPendiente) {
             return res.status(401).json({
                 ok: false,
-                err: 'Your account is not allowed to be registered yet'
+                message: 'Tu cuenta aún no ha sido permitida para iniciar sesión'
             });
         }
 
@@ -68,7 +68,7 @@ const signIn = async(req, res) => {
         if (!matchPassword) {
             return res.status(400).json({
                 ok: false,
-                err: 'Incorrect credentials'
+                message: 'Credenciales incorrectas'
             });
         }
 
@@ -84,7 +84,7 @@ const signIn = async(req, res) => {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            err: 'Internal server error'
+            message: 'Internal server error'
         });
     }
 }

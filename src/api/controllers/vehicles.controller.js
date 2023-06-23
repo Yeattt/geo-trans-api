@@ -8,7 +8,7 @@ const getVehicle = async (req, res) => {
         if (!vehicles) {
             return res.status(400).json({
                 ok: true,
-                message: 'No vehicles registered'
+                message: 'No hay vehículos registrados en este momento'
             });
         }
         res.status(200).json({
@@ -36,7 +36,7 @@ const getOneVehicle = async (req, res) => {
         if (!vehicle) {
             return res.status(400).json({
                 ok: false,
-                message: 'Vehicle not found'
+                message: `Vehículo con placa ${placa} no encontrado`
             });
         }
         return res.status(200).json({
@@ -58,7 +58,7 @@ const getOneVehicle = async (req, res) => {
 
 const createVehicle = async (req, res) => {
     const { body } = req;
-    
+
     try {
         const existVehicle = await Vehicle.findOne({
             where: {
@@ -69,7 +69,7 @@ const createVehicle = async (req, res) => {
         if (existVehicle) {
             return res.status(400).json({
                 ok: false,
-                message: 'Vehicle already registered'
+                message: 'Ya hay un vehículo registrado con esa placa'
             });
         }
 
@@ -78,7 +78,7 @@ const createVehicle = async (req, res) => {
         if (!vehicleType) {
             return res.status(404).json({
                 ok: false,
-                message: 'Vehicle type not found'
+                message: 'Tipo de vehículo no encontrado'
             });
         }
 
@@ -87,7 +87,7 @@ const createVehicle = async (req, res) => {
 
         res.status(200).json({
             ok: true,
-            message: 'Vehicle created sucessfully'
+            message: 'Vehículo registrado satisfactoriamente'
         })
 
     } catch (error) {
@@ -124,7 +124,7 @@ const createVehicle = async (req, res) => {
 //     }
 // }
 
-const updateVehicle = async(req, res) => {
+const updateVehicle = async (req, res) => {
     const { id } = req.params;
     const { body } = req;
 
@@ -134,7 +134,7 @@ const updateVehicle = async(req, res) => {
         if (!vehicle) {
             return res.status(400).json({
                 ok: false,
-                msg: `Vehicle with id ${id} not found`
+                message: `Vehículo con id ${id} no encontrado`
             });
         }
 
@@ -142,13 +142,13 @@ const updateVehicle = async(req, res) => {
 
         res.status(200).json({
             ok: true,
-            msg: 'Vehicle updated successfully'
+            message: 'Vehículo actualizado satisfactoriamente'
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            msg: "Internal server error"
+            message: "Internal server error"
         });
     }
 }
@@ -163,31 +163,31 @@ const deleteVehicle = async (req, res) => {
         if (!vehicle) {
             return res.status(400).json({
                 ok: false,
-                msg: `Vehicle with id ${id} not found`
+                message: `Vehículo con id ${id} no encontrado`
             });
         }
         if (vehicle.estado) {
             await vehicle.update({
-                estado : false
-            })    
-        }
-        else{
-            await vehicle.update({
-                estado : true
+                estado: false
             })
         }
-        
+        else {
+            await vehicle.update({
+                estado: true
+            })
+        }
+
 
 
         res.status(200).json({
             ok: true,
-            msg: "Vehicle status change successfully"
+            message: 'Estado del vehículo actualizado satisfactoriamente'
         });
     } catch (error) {
         console.log(error)
         res.status(500).json({
             ok: false,
-            msg: "Internal server error"
+            message: "Internal server error"
         })
     }
 }

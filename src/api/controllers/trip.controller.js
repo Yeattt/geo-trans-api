@@ -1,13 +1,13 @@
 const Trip = require('../models/trips')
 
-const getTrips = async(req, res) => {
+const getTrips = async (req, res) => {
     try {
         const trips = await Trip.findAll();
 
         if (!trips) {
             return res.status(404).json({
                 ok: false,
-                err: 'There are no trips registered on this moment'
+                message: 'No hay viajes registrados en este momento'
             });
         }
 
@@ -19,12 +19,12 @@ const getTrips = async(req, res) => {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            err: 'Internal server error'
+            message: 'Internal server error'
         });
     }
 }
 
-const getOneTrip = async(req, res) => {
+const getOneTrip = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -33,7 +33,7 @@ const getOneTrip = async(req, res) => {
         if (!trip) {
             return res.status(404).json({
                 ok: false,
-                err: `Trip with id ${id} not found`
+                message: `Viaje con id ${id} no encontrado`
             });
         }
 
@@ -45,13 +45,13 @@ const getOneTrip = async(req, res) => {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            err: 'Internal server error'
+            message: 'Internal server error'
         });
     }
 }
 
 
-const createTrip = async(req, res) => {
+const createTrip = async (req, res) => {
     const { body } = req;
 
     try {
@@ -64,7 +64,7 @@ const createTrip = async(req, res) => {
         if (tripExists) {
             return res.status(404).json({
                 ok: false,
-                err: 'Trip already registered'
+                message: 'Ya hay un viaje registrado con ese codigo de producto'
             });
         }
 
@@ -74,18 +74,18 @@ const createTrip = async(req, res) => {
 
         return res.status(200).json({
             ok: true,
-            message: 'Trip created successfully'
+            message: 'Viaje registrado satisfactoriamente'
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            err: 'Internal server error'
+            message: 'Internal server error'
         });
     }
 }
 
-const updateTrip = async(req, res) => {
+const updateTrip = async (req, res) => {
     const { id } = req.params;
     const { body } = req;
 
@@ -95,7 +95,7 @@ const updateTrip = async(req, res) => {
         if (!trip) {
             return res.status(404).json({
                 ok: false,
-                err: `Trip with id ${id} not found`
+                message: `Viaje con id ${id} no encontrado`
             });
         }
 
@@ -103,18 +103,18 @@ const updateTrip = async(req, res) => {
 
         return res.status(200).json({
             ok: 200,
-            message: 'Trip updated successfully'
+            message: 'Viaje actualizado satisfactoriamente'
         })
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            err: 'Internal server error'
+            message: 'Internal server error'
         })
     }
 }
 
-const deleteTrip = async(req, res) => {
+const deleteTrip = async (req, res) => {
     const { id } = req.params;
 
 
@@ -124,31 +124,31 @@ const deleteTrip = async(req, res) => {
         if (!trip) {
             return res.status(400).json({
                 ok: false,
-                msg: `Trip with id ${id} not found`
+                message: `Viaje con id ${id} no encontrado`
             });
         }
         if (trip.estado) {
             await trip.update({
-                estado : false
-            })    
-        }
-        else{
-            await trip.update({
-                estado : true
+                estado: false
             })
         }
-        
+        else {
+            await trip.update({
+                estado: true
+            })
+        }
+
 
 
         res.status(200).json({
             ok: true,
-            msg: "Trip status change successfully"
+            message: 'Estado del viaje actualizado satisfactoriamente'
         });
     } catch (error) {
         console.log(error)
         res.status(500).json({
             ok: false,
-            msg: "Internal server error"
+            message: "Internal server error"
         })
     }
 }

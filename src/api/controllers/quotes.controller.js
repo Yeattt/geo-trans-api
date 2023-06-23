@@ -1,13 +1,13 @@
 const Quote = require('../models/quote')
 
-const getQuote = async(req, res) => {
+const getQuote = async (req, res) => {
     try {
         const quotes = await Quote.findAll();
 
         if (!quotes) {
             return res.status(404).json({
                 ok: false,
-                err: 'There are no clients registered on this moment'
+                message: 'No hay cotizaciones registradas en este momento'
             });
         }
 
@@ -19,12 +19,12 @@ const getQuote = async(req, res) => {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            err: 'Internal server error'
+            message: 'Internal server error'
         });
     }
 }
 
-const getOneQuote = async(req, res) => {
+const getOneQuote = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -33,7 +33,7 @@ const getOneQuote = async(req, res) => {
         if (!quote) {
             return res.status(404).json({
                 ok: false,
-                message: 'Quote not found'
+                message: `Cotización con id ${id} no encontrada`
             });
         }
 
@@ -51,7 +51,7 @@ const getOneQuote = async(req, res) => {
 }
 
 
-const createQuote = async(req, res) => {
+const createQuote = async (req, res) => {
     const { body } = req;
 
     try {
@@ -73,18 +73,18 @@ const createQuote = async(req, res) => {
 
         res.status(200).json({
             ok: true,
-            message: 'Quote created successfully'
+            message: 'Cotización creada satisfactoriamente'
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            err: 'Internal server error'
+            message: 'Internal server error'
         });
     }
 }
 
-const updateQuote = async(req, res) => {
+const updateQuote = async (req, res) => {
     const { id } = req.params;
     const { body } = req
 
@@ -94,7 +94,7 @@ const updateQuote = async(req, res) => {
         if (!quote) {
             return res.status(404).json({
                 ok: false,
-                err: `Quote with id ${id} not found`
+                message: `Cotización con id ${id} no encontrada`
             });
         }
 
@@ -102,18 +102,18 @@ const updateQuote = async(req, res) => {
 
         return res.status(200).json({
             ok: 200,
-            message: 'Quote updated successfully'
+            message: 'Cotización actualizada satisfactoriamente'
         })
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            err: 'Internal server error'
+            message: 'Internal server error'
         })
     }
 }
 
-const deleteQuote = async(req, res) => {
+const deleteQuote = async (req, res) => {
     const { id } = req.params;
 
 
@@ -123,31 +123,31 @@ const deleteQuote = async(req, res) => {
         if (!quote) {
             return res.status(400).json({
                 ok: false,
-                msg: `Quote with id ${id} not found`
+                message: `Cotización con id ${id} no encontrada`
             });
         }
         if (quote.estado) {
             await quote.update({
-                estado : false
-            })    
-        }
-        else{
-            await quote.update({
-                estado : true
+                estado: false
             })
         }
-        
+        else {
+            await quote.update({
+                estado: true
+            })
+        }
+
 
 
         res.status(200).json({
             ok: true,
-            msg: "Quote status change successfully"
+            message: 'Estado de la cotización actualizado satisfactoriamente'
         });
     } catch (error) {
         console.log(error)
         res.status(500).json({
             ok: false,
-            msg: "Internal server error"
+            message: "Internal server error"
         })
     }
 }

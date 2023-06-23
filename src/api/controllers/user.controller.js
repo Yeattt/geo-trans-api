@@ -13,14 +13,14 @@ const activateUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 ok: false,
-                message: `User with id ${id} not found`
+                message: `Usuario con id ${id} no encontrado`
             });
         }
 
         if (!user.registroPendiente) {
             return res.status(400).json({
                 ok: false,
-                message: 'This user is already allowed to be registered on the application'
+                message: 'Este usuario ya se encuentra permitido para iniciar sesión en el aplicativo'
             });
         }
 
@@ -32,13 +32,13 @@ const activateUser = async (req, res) => {
 
         res.status(200).json({
             ok: true,
-            message: 'User allowed to be registered successfully'
+            message: 'Usuario permitido para iniciar sesión satisfactoriamente'
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            err: 'Internal server error'
+            message: 'Internal server error'
         });
     }
 }
@@ -50,7 +50,7 @@ const getUsers = async (req, res) => {
         if (!users) {
             return res.status(404).json({
                 ok: false,
-                err: 'There are no registered users yet'
+                message: 'No hay usuarios registrados en este momento'
             });
         }
 
@@ -62,7 +62,7 @@ const getUsers = async (req, res) => {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            err: 'Internal server error'
+            message: 'Internal server error'
         });
     }
 }
@@ -81,7 +81,7 @@ const getOneUser = async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 ok: false,
-                err: `Usuario con documento ${documento} no encontrado`
+                message: `Usuario con documento ${documento} no encontrado`
             });
         }
 
@@ -93,7 +93,7 @@ const getOneUser = async (req, res) => {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            err: 'Internal server error'
+            message: 'Internal server error'
         });
     }
 }
@@ -111,7 +111,7 @@ const createUser = async (req, res) => {
         if (userExists) {
             return res.status(404).json({
                 ok: false,
-                err: 'User already registered'
+                message: 'Ya existe un usuario registrado con ese email'
             });
         }
 
@@ -120,7 +120,7 @@ const createUser = async (req, res) => {
         if (!roleExists) {
             return res.status(404).json({
                 ok: false,
-                err: 'Role not found'
+                message: 'Rol no encontrado'
             });
         }
 
@@ -129,7 +129,7 @@ const createUser = async (req, res) => {
         if (!companyExists) {
             return res.status(404).json({
                 ok: false,
-                err: 'Company not found'
+                message: 'Compañía no encontrada'
             });
         }
 
@@ -138,7 +138,7 @@ const createUser = async (req, res) => {
         if (!vehicleExists) {
             return res.status(404).json({
                 ok: false,
-                err: 'Vehicle not found'
+                message: 'Vehículo no encontrado'
             });
         }
 
@@ -150,13 +150,13 @@ const createUser = async (req, res) => {
 
         res.status(200).json({
             ok: true,
-            message: 'User created successfully'
+            message: 'Usuario creado satisfactoriamente'
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            err: 'Internal server error'
+            message: 'Internal server error'
         });
     }
 }
@@ -171,7 +171,7 @@ const updateUser = async (req, res) => {
         if (!user) {
             return res.status(400).json({
                 ok: false,
-                msg: `User with id ${id} not found`
+                message: `Usuario con id ${id} no encontrado`
             });
         }
 
@@ -179,13 +179,13 @@ const updateUser = async (req, res) => {
 
         res.status(200).json({
             ok: true,
-            msg: 'User updated successfully'
+            message: 'Usuario actualizado satisfactoriamente'
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            msg: "Internal server error"
+            message: "Internal server error"
         });
     }
 }
@@ -199,7 +199,7 @@ const deleteUser = async (req, res) => {
         if (!user) {
             return res.status(400).json({
                 ok: false,
-                msg: `User with id ${id} not found`
+                message: `Usuario con id ${id} no encontrado`
             });
         }
         if (user.estado) {
@@ -217,13 +217,13 @@ const deleteUser = async (req, res) => {
 
         res.status(200).json({
             ok: true,
-            msg: "User status change successfully"
+            message: 'Estado del usuario actualizado satisfactoriamente'
         });
     } catch (error) {
         console.log(error)
         res.status(500).json({
             ok: false,
-            msg: "Internal server error"
+            message: "Internal server error"
         })
     }
 }
