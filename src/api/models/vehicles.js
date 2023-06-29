@@ -36,6 +36,10 @@ const Vehicle = db.define('vehiculos', {
             key: 'id'
         }
     },
+    enUso: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
     estado: {
         type: DataTypes.BOOLEAN,
         defaultValue: true

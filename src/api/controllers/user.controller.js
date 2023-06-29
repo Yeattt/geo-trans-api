@@ -133,7 +133,7 @@ const createUser = async (req, res) => {
             });
         }
 
-        const vehicleExists = await Vehicle.findByPk(body.roleId);
+        const vehicleExists = await Vehicle.findByPk(body.vehicleId);
 
         if (!vehicleExists) {
             return res.status(404).json({
@@ -142,10 +142,24 @@ const createUser = async (req, res) => {
             });
         }
 
+        if (vehicleExists.enUso) {
+            return res.status(400).json({
+                ok: false,
+                message: 'El vehículo ya se encuentra asignado a otro conductor'
+            });
+        }
+
         const user = await User.create(body);
+        
+        
 
         user.contrasena = bcrypt.hashSync(body.contrasena, 10);
 
+        await vehicleExists.update({
+            enUso: true
+        });
+        
+        await vehicleExists.save();
         await user.save();
 
         res.status(200).json({
