@@ -1,6 +1,8 @@
 const { DataTypes } = require('sequelize');
 const db = require('../../config/db')
-const User = require('./user')
+const User = require('./user');
+const VehiclesType = require('./vehicle-type');
+const Company = require('./company');
 
 const Quote = db.define('cotizaciones', {
     id: {
@@ -8,46 +10,66 @@ const Quote = db.define('cotizaciones', {
         autoIncrement: true,
         primaryKey: true
     },
-    codigoCotizacion: {
+    nombreOrigen: {
+        type: DataTypes.STRING,
+    },
+    nombreDestino: {
+        type: DataTypes.STRING,
+    },
+    ciudadOrigen: {
+        type: DataTypes.STRING,
+    },
+    ciudadDestino: {
+        type: DataTypes.STRING,
+    },
+    direccion: {
+        type: DataTypes.STRING,
+    },
+    contacto: {
         type: DataTypes.INTEGER,
     },
-    cantidad: {
+    fechaSolicitud: {
+        type: DataTypes.STRING,
+    },
+    fechaServicio: {
+        type: DataTypes.STRING,
+    },
+    horaCargue: {
+        type: DataTypes.STRING
+    },
+    tipoCamion: {
         type: DataTypes.INTEGER,
+        references: {
+            model: VehiclesType,
+            key: 'id'
+        }
     },
-    codigoProducto: {
-        type: DataTypes.STRING
-    },
-    destino: {
-        type: DataTypes.STRING
-    },
-    empaque: {
-        type: DataTypes.STRING
-    },
-    naturaleza: {
-        type: DataTypes.STRING
-    },
-    numeroRemesa: {
-        type: DataTypes.STRING
-    },
-    origen: {
-        type: DataTypes.STRING
-    },
-    productoTransportar: {
-        type: DataTypes.STRING
-    },
-    saldoPagar: {
+    pesoAproximado: {
         type: DataTypes.INTEGER
     },
-    unidadMedida: {
+    valorMercancia: {
+        type: DataTypes.INTEGER
+    },
+    contenido: {
         type: DataTypes.STRING
     },
-    valorPagar: {
+    valorTransporte: {
         type: DataTypes.INTEGER
+    },
+    observaciones: {
+        type: DataTypes.STRING
     },
     userId: {
         type: DataTypes.INTEGER,
         references: {
             model: User,
+            key: 'id'
+        }
+    },
+    companyId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Company,
             key: 'id'
         }
     },
@@ -58,5 +80,8 @@ const Quote = db.define('cotizaciones', {
 });
 
 Quote.belongsTo(User, { foreignKey: 'userId', targetKey: 'id' });
+Quote.belongsTo(VehiclesType, { foreignKey: 'tipoCamion', targetKey: 'id' });
+Quote.belongsTo(Company, { foreignKey: 'companyId', targetKey: 'id' });
+
 
 module.exports = Quote;
