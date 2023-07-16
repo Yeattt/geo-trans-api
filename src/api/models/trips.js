@@ -45,11 +45,14 @@ const Trips = db.define('viajes', {
     tipoViaje: {
         type: DataTypes.STRING
     },
-    fechaViaje:{
-       type: DataTypes.STRING
+    fechaViaje: {
+        type: DataTypes.STRING
     },
-    cliente:{
-        type:DataTypes.STRING
+    cliente: {
+        type: DataTypes.STRING
+    },
+    horaViaje: {
+        type: DataTypes.STRING
     },
     conductorId: {
         type: DataTypes.INTEGER,
