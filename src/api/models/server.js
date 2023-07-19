@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
 const db = require('../../config/db');
 
 const RolesPermissions = require('../models/rolesPermissions');
@@ -23,6 +24,7 @@ class Server {
             auth: '/api/auth',
             clients: '/api/clients',
             companies: '/api/companies',
+            files: '/api/files',
             permissions: '/api/permissions',
             quotes: '/api/quotes',
             roles: '/api/roles',
@@ -40,6 +42,7 @@ class Server {
     middlewares() {
         this.app.use(cors());
         this.app.use(express.json());
+        this.app.use(fileUpload());
     }
 
     async dbConnection() {
@@ -56,6 +59,7 @@ class Server {
         this.app.use(this.apiRoutes.auth, authRoutes);
         this.app.use(this.apiRoutes.clients, clientRoutes);
         this.app.use(this.apiRoutes.companies, companyRoutes);
+        this.app.use(this.apiRoutes.files, fileRoutes);
         this.app.use(this.apiRoutes.quotes, quoteRoutes);
         this.app.use(this.apiRoutes.permissions, permissionRoutes);
         this.app.use(this.apiRoutes.roles, roleRoutes);
