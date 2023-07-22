@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs');
+
 const VehiclesType = require('../models/vehicle-type');
 const Vehicle = require('../models/vehicles');
 const Permission = require('../models/permission');
@@ -39,11 +41,13 @@ const seedDB = async (req, res) => {
       duenoPoliza: "yo"
     });
 
+    const encryptedPass = bcrypt.hashSync(123456, 10);
+
     const user = await User.create({
       documento: 1010101010,
       edad: 12,
       email: "carti@gmail.com",
-      contrasena: "123456",
+      contrasena: encryptedPass,
       roleId: 1,
       companyId: 1,
       vehicleId: 1
