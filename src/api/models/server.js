@@ -8,6 +8,7 @@ const RolesPermissions = require('../models/rolesPermissions');
 const authRoutes = require('../routes/auth.routes');
 const clientRoutes = require('../routes/client.routes')
 const companyRoutes = require('../routes/company.routes');
+const fileRoutes = require('../routes/file.routes');
 const quoteRoutes = require('../routes/quote.routes');
 const permissionRoutes = require('../routes/permission.routes');
 const roleRoutes = require('../routes/role.routes');
@@ -15,6 +16,7 @@ const tripRoutes = require('../routes/trip.routes');
 const userRoutes = require('../routes/user.routes');
 const vehicleRoutes = require('../routes/vehicles.routes');
 const vehicleTypeRoutes = require('../routes/vehicle-type.routes');
+const seedRoutes = require('../routes/seed.routes');
 
 class Server {
     constructor() {
@@ -31,7 +33,8 @@ class Server {
             trips: '/api/trips',
             users: '/api/users',
             vehicles: '/api/vehicles',
-            vehiclesTypes: '/api/trucks/types'
+            vehiclesTypes: '/api/trucks/types',
+            seed: '/api/seed',
         }
 
         this.middlewares();
@@ -67,6 +70,7 @@ class Server {
         this.app.use(this.apiRoutes.users, userRoutes);
         this.app.use(this.apiRoutes.vehicles, vehicleRoutes);
         this.app.use(this.apiRoutes.vehiclesTypes, vehicleTypeRoutes);
+        this.app.use(this.apiRoutes.seed, seedRoutes)
     }
 
     listen() {
