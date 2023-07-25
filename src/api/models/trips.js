@@ -12,7 +12,7 @@ const Trips = db.define('viajes', {
     cantidad: {
         type: DataTypes.INTEGER,
     },
-    codigoProducto: {
+    nombreProducto: {
         type: DataTypes.STRING
     },
     destino: {
