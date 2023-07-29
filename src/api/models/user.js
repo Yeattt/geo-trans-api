@@ -22,6 +22,12 @@ const User = db.define('usuarios', {
         type: DataTypes.STRING,
         unique: true
     },
+    nombrePlataforma:{
+        type: DataTypes.STRING
+    },
+    linkPlataforma:{
+         type: DataTypes.STRING
+    },
     contrasena: {
         type: DataTypes.STRING
     },
