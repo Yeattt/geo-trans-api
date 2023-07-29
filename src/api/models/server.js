@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
 const db = require('../../config/db');
 
 const RolesPermissions = require('../models/rolesPermissions');
@@ -7,6 +8,7 @@ const RolesPermissions = require('../models/rolesPermissions');
 const authRoutes = require('../routes/auth.routes');
 const clientRoutes = require('../routes/client.routes')
 const companyRoutes = require('../routes/company.routes');
+const fileRoutes = require('../routes/file.routes');
 const quoteRoutes = require('../routes/quote.routes');
 const permissionRoutes = require('../routes/permission.routes');
 const roleRoutes = require('../routes/role.routes');
@@ -14,6 +16,7 @@ const tripRoutes = require('../routes/trip.routes');
 const userRoutes = require('../routes/user.routes');
 const vehicleRoutes = require('../routes/vehicles.routes');
 const vehicleTypeRoutes = require('../routes/vehicle-type.routes');
+const seedRoutes = require('../routes/seed.routes');
 
 class Server {
     constructor() {
@@ -23,13 +26,15 @@ class Server {
             auth: '/api/auth',
             clients: '/api/clients',
             companies: '/api/companies',
+            files: '/api/files',
             permissions: '/api/permissions',
             quotes: '/api/quotes',
             roles: '/api/roles',
             trips: '/api/trips',
             users: '/api/users',
             vehicles: '/api/vehicles',
-            vehiclesTypes: '/api/trucks/types'
+            vehiclesTypes: '/api/trucks/types',
+            seed: '/api/seed',
         }
 
         this.middlewares();
@@ -40,6 +45,7 @@ class Server {
     middlewares() {
         this.app.use(cors());
         this.app.use(express.json());
+        this.app.use(fileUpload());
     }
 
     async dbConnection() {
@@ -56,6 +62,7 @@ class Server {
         this.app.use(this.apiRoutes.auth, authRoutes);
         this.app.use(this.apiRoutes.clients, clientRoutes);
         this.app.use(this.apiRoutes.companies, companyRoutes);
+        this.app.use(this.apiRoutes.files, fileRoutes);
         this.app.use(this.apiRoutes.quotes, quoteRoutes);
         this.app.use(this.apiRoutes.permissions, permissionRoutes);
         this.app.use(this.apiRoutes.roles, roleRoutes);
@@ -63,6 +70,7 @@ class Server {
         this.app.use(this.apiRoutes.users, userRoutes);
         this.app.use(this.apiRoutes.vehicles, vehicleRoutes);
         this.app.use(this.apiRoutes.vehiclesTypes, vehicleTypeRoutes);
+        this.app.use(this.apiRoutes.seed, seedRoutes)
     }
 
     listen() {
