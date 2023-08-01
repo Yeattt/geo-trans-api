@@ -1,7 +1,7 @@
 const File = require('../models/file');
 
 const uploadFile = async (req, res) => {
-  let file;
+  let files = [];
   let uploadsPath;
 
   try {
@@ -12,25 +12,22 @@ const uploadFile = async (req, res) => {
       });
     }
 
-    file = req.files.file;
-    file.name = Date.now() + file.name;
-    uploadsPath = __dirname + '/uploads' + file.name;
+    for (const fileFieldName in req.files) {
+      const file = req.files[fileFieldName];
+      const newFileName = Date.now() + file.name;
+      uploadsPath = __dirname + '/../../uploads/' + newFileName;
 
-    file.mv(uploadsPath, async (err) => {
-      if (err) {
-        return res.status(500).json({
-          ok: false,
-          err
-        });
-      }
+      file.mv(uploadsPath);
 
-      const fileDB = await File.create({ name: file.name });
+      const fileDB = await File.create({ name: newFileName });
       await fileDB.save();
 
-      res.status(200).json({
-        ok: true,
-        message: 'Archivo subido correctamente'
-      });
+      files.push(fileDB);
+    }
+
+    res.status(200).json({
+      ok: true,
+      files
     });
   } catch (error) {
     console.log(error);
