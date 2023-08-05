@@ -44,6 +44,49 @@ const assignPermissionsToRole = async(req, res) => {
     }
 }
 
+const  assignPrivilegesToRole = async(req, res) => {
+    const { id } = req.params;
+    const { privilegesId } = req.body;
+
+    try {
+        const privileges = await Privileges.findByPk(id);
+
+        if (!privileges) {
+            return res.status(404).json({
+                ok: false,
+                message: `Privilegio con id ${id} no encontrado`
+            });
+        }
+
+        const privilegesToAssign = await Privileges.findAll({
+            where: {
+                id: privilegesId
+            }
+        });
+
+        if (privilegesToAssign.length === 0) {
+            return res.status(404).json({
+                ok: false,
+                message: 'No se encontraron privilegios con esos id'
+            });
+        }
+
+        await privileges.addPrivileges(privilegesToAssign);
+        await privileges.save();
+
+        res.status(200).json({
+            ok: true,
+            message: 'Privilegios asignados satisfactoriamente'
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            message: 'Internal server error'
+        });
+    }
+}
+
 const getRoles = async(req, res) => {
     try {
         const roles = await Role.findAll({
@@ -219,6 +262,7 @@ const deleteRole = async(req, res) => {
 
 module.exports = {
     assignPermissionsToRole,
+    assignPrivilegesToRole,
     getRoles,
     getOneRole,
     createRole,
