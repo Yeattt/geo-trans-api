@@ -1,4 +1,4 @@
-const Privileges = require('../models/privigeles');
+const { Privileges } = require('../models/privileges');
 
 
 const getPrivileges = async(req, res) => {

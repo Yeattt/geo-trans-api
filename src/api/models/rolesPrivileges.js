@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 const db = require('../../config/db');
 
-const Permission = require('./permission');
 const Privileges = require('./privileges');
+const Role = require('./role');
 
 const RolesPrivileges = db.define('roles_privilegios', {
    selfGranted: DataTypes.BOOLEAN
