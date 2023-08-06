@@ -72,11 +72,12 @@ const signIn = async (req, res) => {
             });
         }
 
-        const token = await generateJWT(user.id, user.email);
+        const token = await generateJWT(user.id, user.email, user.roleId);
 
         res.status(200).json({
             ok: true,
             uid: user.id,
+            roleId: user.roleId,
             nombre: user.email,
             token
         });
