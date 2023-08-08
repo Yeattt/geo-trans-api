@@ -114,20 +114,23 @@ const getRoles = async(req, res) => {
 }
 
 const getOneRole = async(req, res) => {
-    const { nombre } = req.params;
+    // const { nombre } = req.params;
+    const { id } = req.params;
 
     try {
-        const role = await Role.findOne({
-            where: {
-                nombre
-            },
-            include: Permission
-        });
+        // const role = await Role.findOne({
+        //     where: {
+        //         nombre
+        //     },
+        //     include: Permission
+        // });
+
+        const role = await Role.findByPk(id);
 
         if (!role) {
             return res.status(404).json({
                 ok: false,
-                message: `Rol con nombre ${nombre} no encontrado`
+                message: `Rol con nombreo o id ${id} no encontrado`
             });
         }
 

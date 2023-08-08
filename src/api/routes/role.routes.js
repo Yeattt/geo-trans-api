@@ -4,7 +4,8 @@ const { getRoles, getOneRole, createRole, updateRole, deleteRole, assignPermissi
 
 router.get('/', getRoles);
 
-router.get('/:nombre', getOneRole);
+// router.get('/:nombre', getOneRole);
+router.get('/:id', getOneRole);
 
 router.post('/create', createRole);
 
