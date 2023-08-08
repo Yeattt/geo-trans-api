@@ -4,7 +4,9 @@ const Role = require('../models/role');
 const Company = require('../models/company');
 const Vehicle = require('../models/vehicles');
 const jwt = require('jsonwebtoken');
-const activateUser = async (req, res) => {
+const nodemailer = require('nodemailer');
+const base64url = require('base64url');
+const activateUser = async(req, res) => {
     const { id } = req.params;
 
     try {
@@ -43,7 +45,7 @@ const activateUser = async (req, res) => {
     }
 }
 
-const getUsers = async (req, res) => {
+const getUsers = async(req, res) => {
     try {
         const users = await User.findAll();
 
@@ -67,7 +69,7 @@ const getUsers = async (req, res) => {
     }
 }
 
-const getOneUser = async (req, res) => {
+const getOneUser = async(req, res) => {
     const { documento } = req.params;
 
     try {
@@ -98,7 +100,7 @@ const getOneUser = async (req, res) => {
     }
 }
 
-const createUser = async (req, res) => {
+const createUser = async(req, res) => {
     const { body } = req;
 
     try {
@@ -173,7 +175,7 @@ const createUser = async (req, res) => {
     }
 }
 
-const updateUser = async (req, res) => {
+const updateUser = async(req, res) => {
     const { id } = req.params;
     const { body } = req;
 
@@ -202,7 +204,7 @@ const updateUser = async (req, res) => {
     }
 }
 
-const deleteUser = async (req, res) => {
+const deleteUser = async(req, res) => {
     const { id } = req.params;
 
     try {
@@ -218,8 +220,7 @@ const deleteUser = async (req, res) => {
             await user.update({
                 estado: false
             })
-        }
-        else {
+        } else {
             await user.update({
                 estado: true
             })
@@ -240,38 +241,71 @@ const deleteUser = async (req, res) => {
     }
 }
 
-const sendRecoveryPasswordEmail = async (req, res) => {
+const sendRecoveryPasswordEmail = async(req, res) => {
     const { email } = req.body;
+    const { id } = req.params;
 
     try {
         const user = await User.findOne({
             where: {
-                email
-            }
+                email,
+            },
         });
 
         if (!user) {
             return res.status(404).json({
                 ok: false,
-                message: `Usuario con email ${email} no encontrado`
+                message: `Usuario con email ${email} no encontrado`,
             });
         }
 
-        const recoveryPasswordToken = await jwt.sign({
-            email: user.email,
-            id: user.id
-        }, process.env.SECRET_KEY, { expiresIn: '15m' });
+        const recoveryPasswordToken = jwt.sign({
+                email: user.email,
+                id: user.id,
+            },
+            process.env.SECRET_KEY, { expiresIn: '5m' }
+        );
+        const shortenedToken = base64url.encode(recoveryPasswordToken)
 
-        const linkToRecovery = `http://localhost:5173/recovery/${id}/${recoveryPasswordToken}`;
+        const linkToRecovery = `http://localhost:5173/auth/recovery/${user.id}/${shortenedToken}`;
 
-        // TODO: Envía el enlace de recuperación por correo.
-        // TODO: Por ejemplo:
-        // TODO: sendRecoveryEmail(email, linkToRecovery);
+        // Envía el enlace de recuperación por correo.
+        try {
 
-        res.json({
-            ok: true,
-            message: 'Correo electrónico de recuperación enviado correctamente'
-        });
+
+            const transporter = nodemailer.createTransport({
+                service: 'Gmail', // o el servidor SMTP que estés utilizando
+                auth: {
+                    user: process.env.EMAIL,
+                    pass: process.env.PASSWORD,
+                },
+            });
+
+            transporter.verify().then(() => {
+                console.log('Ready for send emails');
+            })
+
+            await transporter.sendMail({
+                from: `"Forgot password" <${process.env.EMAIL}>`,
+                to: email, // Aquí usamos la dirección de correo del usuario
+                subject: "Forgot password",
+                html: `<b>Please click on the following link, or paste this into your browser to complete the process:</b>
+              <a href="${linkToRecovery}">${linkToRecovery}</a>`,
+            });
+
+            console.log('Correo enviado correctamente: ', linkToRecovery);
+
+            res.json({
+                ok: true,
+                message: 'Correo electrónico de recuperación enviado correctamente',
+            });
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({
+                ok: false,
+                message: 'Error al enviar el correo de recuperación'
+            });
+        }
     } catch (error) {
         console.log(error);
         return res.status(500).json({
@@ -281,10 +315,10 @@ const sendRecoveryPasswordEmail = async (req, res) => {
     }
 }
 
-const recoveryPassword = async (req, res) => {
-    const { id, token } = req.params;
+const recoveryPassword = async(req, res) => {
+    const { id } = req.params;
+    let { token } = req.params;
     const { newPassword } = req.body;
-
     try {
         const user = await User.findByPk(id);
 
@@ -295,7 +329,9 @@ const recoveryPassword = async (req, res) => {
             });
         }
 
-        jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
+        token = base64url.decode(token);
+
+        jwt.verify(token, process.env.SECRET_KEY, async(err, decoded) => {
             if (err) {
                 return res.status(400).json({
                     ok: false,
@@ -312,7 +348,8 @@ const recoveryPassword = async (req, res) => {
             }
 
             // Actualiza la contraseña del usuario
-            await user.update({ password: newPassword });
+            contrasena = bcrypt.hashSync(newPassword, 10);
+            await user.update({ contrasena: contrasena });
 
             return res.json({
                 ok: true,
@@ -334,5 +371,8 @@ module.exports = {
     getOneUser,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    sendRecoveryPasswordEmail,
+    recoveryPassword
+
 }
