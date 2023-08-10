@@ -123,25 +123,23 @@ const deletePrivileges = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const privigeles = await Privileges.findByPk(id);
+        const privileges = await Privileges.findByPk(id);
 
-        if (!privigeles) {
+        if (!privileges) {
             return res.status(400).json({
                 ok: false,
                 message: `Privilegios con id ${id} no encontrado`
             });
         }
         if (privileges.estado) {
-            await privigeles.update({
+            await privileges.update({
                 estado: false
             })
         } else {
-            await privigeles.update({
+            await privileges.update({
                 estado: true
             })
         }
-
-
 
         res.status(200).json({
             ok: true,
