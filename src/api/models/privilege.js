@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db = require('../../config/db');
 
-const Privileges = db.define('privilegios', {
+const Privilege = db.define('privilegios', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -16,4 +16,4 @@ const Privileges = db.define('privilegios', {
     }
 });
 
-module.exports = Privileges;
+module.exports = Privilege;

@@ -98,7 +98,7 @@ const revalidateToken = async (req, res) => {
     res.json({
         ok: true,
         uid, nombre,
-        role: roleId,
+        roleId: roleId,
         token
     });
 }

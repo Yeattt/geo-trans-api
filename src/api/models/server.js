@@ -3,8 +3,8 @@ const cors = require('cors');
 const fileUpload = require('express-fileupload');
 const db = require('../../config/db');
 
-const RolesPermissions = require('../models/rolesPermissions');
 const RolesPrivileges = require('../models/rolesPrivileges');
+const RolesPermissions = require('../models/rolesPermissions');
 
 const authRoutes = require('../routes/auth.routes');
 const clientRoutes = require('../routes/client.routes')
@@ -53,7 +53,7 @@ class Server {
 
     async dbConnection() {
         try {
-            //await db.sync({ force: true });
+            // await db.sync({ force: true });
             await db.authenticate();
             console.log('Successful connection to the database');
         } catch (error) {

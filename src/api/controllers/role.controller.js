@@ -1,7 +1,8 @@
 const Role = require('../models/role');
 const Permission = require('../models/permission');
+const Privilege = require('../models/privilege');
 
-const assignPermissionsToRole = async(req, res) => {
+const assignPermissionsToRole = async (req, res) => {
     const { id } = req.params;
     const { permissionsId } = req.body;
 
@@ -44,21 +45,21 @@ const assignPermissionsToRole = async(req, res) => {
     }
 }
 
-const  assignPrivilegesToRole = async(req, res) => {
+const assignPrivilegesToRole = async (req, res) => {
     const { id } = req.params;
     const { privilegesId } = req.body;
 
     try {
-        const privileges = await Privileges.findByPk(id);
+        const role = await Role.findByPk(id);
 
-        if (!privileges) {
+        if (!role) {
             return res.status(404).json({
                 ok: false,
-                message: `Privilegio con id ${id} no encontrado`
+                message: `Rol con id ${id} no encontrado`
             });
         }
 
-        const privilegesToAssign = await Privileges.findAll({
+        const privilegesToAssign = await Privilege.findAll({
             where: {
                 id: privilegesId
             }
@@ -71,8 +72,8 @@ const  assignPrivilegesToRole = async(req, res) => {
             });
         }
 
-        await privileges.addPrivileges(privilegesToAssign);
-        await privileges.save();
+        await role.addPrivilegio(privilegesToAssign);
+        await role.save();
 
         res.status(200).json({
             ok: true,
@@ -87,10 +88,17 @@ const  assignPrivilegesToRole = async(req, res) => {
     }
 }
 
-const getRoles = async(req, res) => {
+const getRoles = async (req, res) => {
     try {
         const roles = await Role.findAll({
-            include: Permission
+            include: [
+                {
+                    model: Permission
+                },
+                {
+                    model: Privilege
+                }
+            ],
         });
 
         if (!roles) {
@@ -113,7 +121,7 @@ const getRoles = async(req, res) => {
     }
 }
 
-const getOneRole = async(req, res) => {
+const getOneRole = async (req, res) => {
     // const { nombre } = req.params;
     const { id } = req.params;
 
@@ -125,7 +133,16 @@ const getOneRole = async(req, res) => {
         //     include: Permission
         // });
 
-        const role = await Role.findByPk(id);
+        const role = await Role.findByPk(id, {
+            include: [
+                {
+                    model: Permission
+                },
+                {
+                    model: Privilege
+                }
+            ]
+        });
 
         if (!role) {
             return res.status(404).json({
@@ -147,7 +164,7 @@ const getOneRole = async(req, res) => {
     }
 }
 
-const createRole = async(req, res) => {
+const createRole = async (req, res) => {
     const { body } = req;
 
     try {
@@ -165,7 +182,7 @@ const createRole = async(req, res) => {
         }
 
         const role = await Role.create(body);
-
+        
         const permissionsToAssign = await Permission.findAll({
             where: {
                 id: body.permissionsId
@@ -195,7 +212,7 @@ const createRole = async(req, res) => {
     }
 }
 
-const updateRole = async(req, res) => {
+const updateRole = async (req, res) => {
     const { id } = req.params;
     const { body } = req;
 
@@ -226,7 +243,7 @@ const updateRole = async(req, res) => {
     }
 }
 
-const deleteRole = async(req, res) => {
+const deleteRole = async (req, res) => {
     const { id } = req.params;
 
     try {

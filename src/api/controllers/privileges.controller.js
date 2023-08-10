@@ -1,13 +1,10 @@
-const { Privileges } = require('../models/privileges');
+const Privileges = require('../models/privilege');
 
-
-const getPrivileges = async(req, res) => {
+const getPrivileges = async (req, res) => {
     try {
-        const privigeles = await Privileges.findAll({
-            include: Privileges
-        });
+        const privileges = await Privileges.findAll();
 
-        if (!privigeles) {
+        if (!privileges) {
             return res.status(404).json({
                 ok: false,
                 message: 'No hay privilegios registrados en este momento'
@@ -16,18 +13,18 @@ const getPrivileges = async(req, res) => {
 
         res.status(200).json({
             ok: true,
-            privigeles
+            privileges
         });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             ok: false,
-            message: 'Internal server error'
+            message: 'internal server error'
         });
     }
 }
 
-const getOnePrivileges = async(req, res) => {
+const getOnePrivileges = async (req, res) => {
     const { nombre } = req.params;
 
     try {
@@ -58,7 +55,7 @@ const getOnePrivileges = async(req, res) => {
     }
 }
 
-const createPrivileges = async(req, res) => {
+const createPrivileges = async (req, res) => {
     const { body } = req;
 
     try {
@@ -75,23 +72,8 @@ const createPrivileges = async(req, res) => {
             });
         }
 
-        const privigeles = await Privileges.create(body);
-
-        const privilegesToAssign = await Privileges.findAll({
-            where: {
-                id: body.privilegesId
-            }
-        });
-
-        if (privilegesToAssign.length === 0) {
-            return res.status(404).json({
-                ok: false,
-                message: 'No se encontraron privilegios con esos id'
-            });
-        }
-
-        await privigeles.addPrivileges(privilegesToAssign);
-        await privigeles.save();
+        const privilege = await Privileges.create(body);
+        await privilege.save();
 
         res.status(200).json({
             ok: true,
@@ -106,7 +88,7 @@ const createPrivileges = async(req, res) => {
     }
 }
 
-const updatePrivileges = async(req, res) => {
+const updatePrivileges = async (req, res) => {
     const { id } = req.params;
     const { body } = req;
 
@@ -137,7 +119,7 @@ const updatePrivileges = async(req, res) => {
     }
 }
 
-const deletePrivileges = async(req, res) => {
+const deletePrivileges = async (req, res) => {
     const { id } = req.params;
 
     try {

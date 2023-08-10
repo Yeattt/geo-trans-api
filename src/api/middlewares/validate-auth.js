@@ -11,10 +11,11 @@ const validateAuth = (req, res, next) => {
    }
 
    try {
-      const { uid, nombre } = jwt.verify(token, process.env.SECRET_KEY);
+      const { uid, nombre, roleId } = jwt.verify(token, process.env.SECRET_KEY);
 
       req.uid = uid;
       req.nombre = nombre;
+      req.roleId = roleId;
 
       next();
    } catch (error) {

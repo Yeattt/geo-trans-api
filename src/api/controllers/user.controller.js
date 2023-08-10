@@ -152,6 +152,7 @@ const createUser = async (req, res) => {
         const user = await User.create(body);
 
         user.contrasena = bcrypt.hashSync(body.contrasena, 10);
+        user.registroPendiente = false;
 
         await vehicleExists.update({
             enUso: true
