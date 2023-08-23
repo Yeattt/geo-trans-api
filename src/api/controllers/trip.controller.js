@@ -1,6 +1,6 @@
 const Trip = require('../models/trips')
 
-const getTrips = async (req, res) => {
+const getTrips = async(req, res) => {
     try {
         const trips = await Trip.findAll();
 
@@ -24,7 +24,7 @@ const getTrips = async (req, res) => {
     }
 }
 
-const getOneTrip = async (req, res) => {
+const getOneTrip = async(req, res) => {
     const { id } = req.params;
 
     try {
@@ -51,20 +51,20 @@ const getOneTrip = async (req, res) => {
 }
 
 
-const createTrip = async (req, res) => {
+const createTrip = async(req, res) => {
     const { body } = req;
 
     try {
         const tripExists = await Trip.findOne({
             where: {
-                codigoProducto: body.codigoProducto
+                nombreProducto: body.nombreProducto
             }
         })
 
         if (tripExists) {
             return res.status(404).json({
                 ok: false,
-                message: 'Ya hay un viaje registrado con ese codigo de producto'
+                message: 'Ya hay un viaje registrado con ese nombre de producto'
             });
         }
 
@@ -85,7 +85,7 @@ const createTrip = async (req, res) => {
     }
 }
 
-const updateTrip = async (req, res) => {
+const updateTrip = async(req, res) => {
     const { id } = req.params;
     const { body } = req;
 
@@ -114,7 +114,7 @@ const updateTrip = async (req, res) => {
     }
 }
 
-const deleteTrip = async (req, res) => {
+const deleteTrip = async(req, res) => {
     const { id } = req.params;
 
 
@@ -131,8 +131,7 @@ const deleteTrip = async (req, res) => {
             await trip.update({
                 estado: false
             })
-        }
-        else {
+        } else {
             await trip.update({
                 estado: true
             })
