@@ -55,18 +55,18 @@ const createTrip = async(req, res) => {
     const { body } = req;
 
     try {
-        const tripExists = await Trip.findOne({
-            where: {
-                nombreProducto: body.nombreProducto
-            }
-        })
+        // const tripExists = await Trip.findOne({
+        //     where: {
+        //         nombreProducto: body.nombreProducto
+        //     }
+        // })
 
-        if (tripExists) {
-            return res.status(404).json({
-                ok: false,
-                message: 'Ya hay un viaje registrado con ese nombre de producto'
-            });
-        }
+        // if (tripExists) {
+        //     return res.status(404).json({
+        //         ok: false,
+        //         message: 'Ya hay un viaje registrado con ese nombre de producto'
+        //     });
+        // }
 
         const trip = await Trip.create(body);
 
