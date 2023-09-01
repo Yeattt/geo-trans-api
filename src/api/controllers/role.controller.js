@@ -7,12 +7,28 @@ const assignPermissionsToRole = async (req, res) => {
     const { permissionsId } = req.body;
 
     try {
-        const role = await Role.findByPk(id);
+        const role = await Role.findByPk(id, {
+            include: [
+                {
+                    model: Permission
+                }
+            ]
+        });
 
         if (!role) {
             return res.status(404).json({
                 ok: false,
                 message: `Rol con id ${id} no encontrado`
+            });
+        }
+
+        if (permissionsId.length == 0) {
+            await role.setPermisos([]);
+            await role.save();
+
+            return res.status(200).json({
+                ok: true,
+                message: 'Todos los permisos eliminados satisfactoriamente'
             });
         }
 
@@ -29,7 +45,7 @@ const assignPermissionsToRole = async (req, res) => {
             });
         }
 
-        await role.addPermiso(permissionsToAssign);
+        await role.setPermisos(permissionsToAssign);
         await role.save();
 
         res.status(200).json({
@@ -59,6 +75,16 @@ const assignPrivilegesToRole = async (req, res) => {
             });
         }
 
+        if (privilegesId.length == 0) {
+            await role.setPrivilegios([]);
+            await role.save();
+
+            return res.status(200).json({
+                ok: true,
+                message: 'Todos los privilegios eliminados satisfactoriamente'
+            });
+        }
+
         const privilegesToAssign = await Privilege.findAll({
             where: {
                 id: privilegesId
@@ -72,7 +98,7 @@ const assignPrivilegesToRole = async (req, res) => {
             });
         }
 
-        await role.addPrivilegio(privilegesToAssign);
+        await role.setPrivilegios(privilegesToAssign);
         await role.save();
 
         res.status(200).json({
@@ -182,7 +208,17 @@ const createRole = async (req, res) => {
         }
 
         const role = await Role.create(body);
-        
+
+        if (body.permissionsId.length == 0) {
+            await role.setPermisos([]);
+            await role.save();
+
+            return res.status(200).json({
+                ok: true,
+                message: 'Rol creado satisfactoriamente'
+            });
+        }
+
         const permissionsToAssign = await Permission.findAll({
             where: {
                 id: body.permissionsId
@@ -196,7 +232,7 @@ const createRole = async (req, res) => {
             });
         }
 
-        await role.addPermiso(permissionsToAssign);
+        await role.setPermisos(permissionsToAssign);
         await role.save();
 
         res.status(200).json({

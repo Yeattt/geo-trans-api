@@ -19,7 +19,7 @@ const uploadFile = async (req, res) => {
 
       file.mv(uploadsPath);
 
-      const fileDB = await File.create({ name: newFileName });
+      const fileDB = await File.create({ nombre: newFileName });
       await fileDB.save();
 
       files.push(fileDB);

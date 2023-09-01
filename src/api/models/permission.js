@@ -11,8 +11,8 @@ const Permission = db.define('permisos', {
       type: DataTypes.STRING
    },
    estado: {
-       type: DataTypes.BOOLEAN,
-       defaultValue: true
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
    }
 });
 
