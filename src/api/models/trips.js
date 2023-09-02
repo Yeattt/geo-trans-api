@@ -61,6 +61,10 @@ const Trips = db.define('viajes', {
             key: 'id'
         }
     },
+    estadoViaje: {
+        type: DataTypes.STRING,
+        defaultValue: 'pendiente'
+    },
     vehiculoId: {
         type: DataTypes.INTEGER,
         references: {
