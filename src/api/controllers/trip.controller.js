@@ -99,6 +99,13 @@ const updateTrip = async(req, res) => {
             });
         }
 
+        if (body.estadoViaje == 'facturado' && trip.estadoViaje == 'facturado') {
+            return res.status(400).json({
+                ok: false,
+                message: 'El viaje ya ha sido facturado'
+            });
+        }
+
         await trip.update(body);
 
         return res.status(200).json({
