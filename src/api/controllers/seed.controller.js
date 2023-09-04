@@ -100,6 +100,8 @@ const seedDB = async(req, res) => {
             telefono: 3333333333
         });
 
+        await client.save();
+
         const encryptedPass = bcrypt.hashSync('123456', 10);
 
         const user = await User.create({
