@@ -1,10 +1,12 @@
 const router = require('express').Router();
 
-const { activateUser, getUsers, getOneUser, createUser, updateUser, deleteUser, recoveryPassword, sendRecoveryPasswordEmail } = require('../controllers/user.controller');
+const { activateUser, getUsers, getOneUser, createUser, updateUser, deleteUser, recoveryPassword, sendRecoveryPasswordEmail, getOneUserById } = require('../controllers/user.controller');
 
 router.get('/', getUsers);
 
 router.get('/:documento', getOneUser);
+
+router.get('/id/:id', getOneUserById);
 
 router.post('/create', createUser);
 

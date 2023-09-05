@@ -100,6 +100,37 @@ const getOneUser = async(req, res) => {
     }
 }
 
+const getOneUserById = async(req, res) => {
+    const { id } = req.params;
+
+    try {
+        const user = await User.findOne({
+            where: {
+                id
+            },
+            include: Role
+        });
+
+        if (!user) {
+            return res.status(404).json({
+                ok: false,
+                message: `Usuario con documento ${documento} no encontrado`
+            });
+        }
+
+        res.status(200).json({
+            ok: true,
+            user
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            ok: false,
+            message: 'Internal server error'
+        });
+    }
+}
+
 const createUser = async(req, res) => {
     const { body } = req;
 
@@ -370,6 +401,7 @@ module.exports = {
     activateUser,
     getUsers,
     getOneUser,
+    getOneUserById,
     createUser,
     updateUser,
     deleteUser,
