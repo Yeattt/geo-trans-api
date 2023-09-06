@@ -38,6 +38,27 @@ const uploadFile = async (req, res) => {
   }
 }
 
+const downloadFile = async (req, res) => {
+  const { filename } = req.params;
+  const filePath = __dirname + `/../../uploads/${filename}`;
+
+  try {
+    res.download(filePath, filename);
+
+    res.status(200).json({
+      ok: true,
+      message: 'Archivo descargado correctamente'
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      message: 'Internal server error'
+    });
+  }
+}
+
 module.exports = {
-  uploadFile
+  uploadFile,
+  downloadFile
 }
