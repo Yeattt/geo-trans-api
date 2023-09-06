@@ -1,4 +1,5 @@
 const File = require('../models/file');
+const path = require('path');
 
 const uploadFile = async (req, res) => {
   let files = [];
@@ -43,12 +44,23 @@ const downloadFile = async (req, res) => {
   const filePath = __dirname + `/../../uploads/${filename}`;
 
   try {
-    res.download(filePath, filename);
+    const fileExtension = path.extname(filePath);
+    
+    console.log(fileExtension);
 
-    res.status(200).json({
-      ok: true,
-      message: 'Archivo descargado correctamente'
-    });
+    let mimeType = 'application/octet-stream';
+
+    if (fileExtension === '.pdf') {
+      mimeType = 'application/pdf';
+    } else if (fileExtension === '.jpg' || fileExtension === '.jpeg') {
+      mimeType = 'image/jpeg';
+    } else if (fileExtension === '.png') {
+      mimeType = 'image/png';
+    }
+
+    res.setHeader('Content-Type', mimeType);
+
+    res.download(filePath, filename);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -56,7 +68,8 @@ const downloadFile = async (req, res) => {
       message: 'Internal server error'
     });
   }
-}
+};
+
 
 module.exports = {
   uploadFile,
