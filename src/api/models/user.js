@@ -47,6 +47,7 @@ const User = db.define('usuarios', {
     },
     vehicleId: {
         type: DataTypes.INTEGER,
+        allowNull: true,
         references: {
             model: Vehicle,
             key: 'id'
