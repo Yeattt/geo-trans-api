@@ -64,7 +64,7 @@ const User = db.define('usuarios', {
 
 // Relacion ya es de vehiculo a viaje y usuario a viaje
 
-User.belongsTo(Role, { foreignKey: 'rolId', targetKey: 'id' });
+User.belongsTo(Role, { foreignKey: 'roleId', targetKey: 'id' });
 User.belongsTo(Company, { foreignKey: 'companyId', targetKey: 'id' });
 User.belongsTo(Vehicle, { foreignKey: 'vehicleId', targetKey: 'id' })
 
