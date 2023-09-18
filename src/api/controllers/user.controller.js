@@ -6,7 +6,7 @@ const Vehicle = require('../models/vehicles');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const base64url = require('base64url');
-const activateUser = async(req, res) => {
+const activateUser = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -45,9 +45,11 @@ const activateUser = async(req, res) => {
     }
 }
 
-const getUsers = async(req, res) => {
+const getUsers = async (req, res) => {
     try {
-        const users = await User.findAll();
+        const users = await User.findAll({
+            include: [{ model: Vehicle }],
+        });
 
         if (!users) {
             return res.status(404).json({
@@ -69,7 +71,7 @@ const getUsers = async(req, res) => {
     }
 }
 
-const getOneUser = async(req, res) => {
+const getOneUser = async (req, res) => {
     const { documento } = req.params;
 
     try {
@@ -77,7 +79,17 @@ const getOneUser = async(req, res) => {
             where: {
                 documento
             },
-            include: Role
+            include: [
+                {
+                    model: Vehicle
+                },
+                {
+                    model: Role
+                },
+                {
+                    model: Company
+                },
+            ]
         });
 
         if (!user) {
@@ -100,7 +112,7 @@ const getOneUser = async(req, res) => {
     }
 }
 
-const getOneUserById = async(req, res) => {
+const getOneUserById = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -108,7 +120,14 @@ const getOneUserById = async(req, res) => {
             where: {
                 id
             },
-            include: Role
+            include: [
+                {
+                    model: Vehicle
+                },
+                {
+                    model: Role
+                },
+            ]
         });
 
         if (!user) {
@@ -131,7 +150,7 @@ const getOneUserById = async(req, res) => {
     }
 }
 
-const createUser = async(req, res) => {
+const createUser = async (req, res) => {
     const { body } = req;
 
     try {
@@ -207,7 +226,7 @@ const createUser = async(req, res) => {
     }
 }
 
-const updateUser = async(req, res) => {
+const updateUser = async (req, res) => {
     const { id } = req.params;
     const { body } = req;
 
@@ -236,7 +255,7 @@ const updateUser = async(req, res) => {
     }
 }
 
-const deleteUser = async(req, res) => {
+const deleteUser = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -273,7 +292,7 @@ const deleteUser = async(req, res) => {
     }
 }
 
-const sendRecoveryPasswordEmail = async(req, res) => {
+const sendRecoveryPasswordEmail = async (req, res) => {
     const { email } = req.body;
     const { id } = req.params;
 
@@ -292,9 +311,9 @@ const sendRecoveryPasswordEmail = async(req, res) => {
         }
 
         const recoveryPasswordToken = jwt.sign({
-                email: user.email,
-                id: user.id,
-            },
+            email: user.email,
+            id: user.id,
+        },
             process.env.SECRET_KEY, { expiresIn: '5m' }
         );
         const shortenedToken = base64url.encode(recoveryPasswordToken)
@@ -347,7 +366,7 @@ const sendRecoveryPasswordEmail = async(req, res) => {
     }
 }
 
-const recoveryPassword = async(req, res) => {
+const recoveryPassword = async (req, res) => {
     const { id } = req.params;
     let { token } = req.params;
     const { newPassword } = req.body;
@@ -363,7 +382,7 @@ const recoveryPassword = async(req, res) => {
 
         token = base64url.decode(token);
 
-        jwt.verify(token, process.env.SECRET_KEY, async(err, decoded) => {
+        jwt.verify(token, process.env.SECRET_KEY, async (err, decoded) => {
             if (err) {
                 return res.status(400).json({
                     ok: false,

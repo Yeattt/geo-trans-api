@@ -11,6 +11,9 @@ const assignPermissionsToRole = async (req, res) => {
             include: [
                 {
                     model: Permission
+                },
+                {
+                    model: Privilege
                 }
             ]
         });

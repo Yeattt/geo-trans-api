@@ -1,8 +1,19 @@
-const Trip = require('../models/trips')
+const Trip = require('../models/trips');
+const User = require('../models/user');
+const Vehicle = require('../models/vehicles');
 
 const getTrips = async(req, res) => {
     try {
-        const trips = await Trip.findAll();
+        const trips = await Trip.findAll({
+            include: [
+                {
+                    model: User
+                },
+                {
+                    model: Vehicle
+                },
+            ],
+        });
 
         if (!trips) {
             return res.status(404).json({
@@ -28,7 +39,16 @@ const getOneTrip = async(req, res) => {
     const { id } = req.params;
 
     try {
-        const trip = await Trip.findByPk(id);
+        const trip = await Trip.findByPk(id, {
+            include: [
+                {
+                    model: User,
+                },
+                {
+                    model: Vehicle,
+                },
+            ]
+        });
 
         if (!trip) {
             return res.status(404).json({

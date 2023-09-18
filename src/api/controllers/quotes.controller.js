@@ -1,8 +1,23 @@
-const Quote = require('../models/quote')
+const Company = require('../models/company');
+const Quote = require('../models/quote');
+const User = require('../models/user');
+const VehiclesType = require('../models/vehicle-type');
 
 const getQuote = async (req, res) => {
     try {
-        const quotes = await Quote.findAll();
+        const quotes = await Quote.findAll({
+            include: [
+                {
+                    model: User,
+                },
+                {
+                    model: VehiclesType,
+                },
+                {
+                    model: Company,
+                },
+            ],
+        });
 
         if (!quotes) {
             return res.status(404).json({
@@ -28,7 +43,19 @@ const getOneQuote = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const quote = await Quote.findByPk(id);
+        const quote = await Quote.findByPk(id, {
+            include: [
+                {
+                    model: User,
+                },
+                {
+                    model: VehiclesType,
+                },
+                {
+                    model: Company,
+                },
+            ],
+        });
 
         if (!quote) {
             return res.status(404).json({

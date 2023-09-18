@@ -3,7 +3,13 @@ const VehiclesType = require('../models/vehicle-type');
 
 const getVehicle = async (req, res) => {
     try {
-        const vehicles = await Vehicle.findAll();
+        const vehicles = await Vehicle.findAll({
+            include: [
+                {
+                    model: VehiclesType,
+                },
+            ]
+        });
 
         if (!vehicles) {
             return res.status(400).json({
@@ -30,7 +36,12 @@ const getOneVehicle = async (req, res) => {
         const vehicle = await Vehicle.findOne({
             where: {
                 placa
-            }
+            },
+            include: [
+                {
+                    model: VehiclesType,
+                },
+            ]
         });
 
         if (!vehicle) {
