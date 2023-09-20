@@ -48,7 +48,17 @@ const activateUser = async (req, res) => {
 const getUsers = async (req, res) => {
     try {
         const users = await User.findAll({
-            include: [{ model: Vehicle }],
+            include: [
+                {
+                    model: Vehicle
+                },
+                {
+                    model: Role,
+                },
+                {
+                    model: Company,
+                },
+            ],
         });
 
         if (!users) {

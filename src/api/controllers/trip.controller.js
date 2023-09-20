@@ -1,3 +1,4 @@
+const Client = require('../models/client');
 const Trip = require('../models/trips');
 const User = require('../models/user');
 const Vehicle = require('../models/vehicles');
@@ -11,6 +12,9 @@ const getTrips = async(req, res) => {
                 },
                 {
                     model: Vehicle
+                },
+                {
+                    model: Client
                 },
             ],
         });
@@ -46,6 +50,9 @@ const getOneTrip = async(req, res) => {
                 },
                 {
                     model: Vehicle,
+                },
+                {
+                    model: Client
                 },
             ]
         });
@@ -87,7 +94,6 @@ const createTrip = async(req, res) => {
         //         message: 'Ya hay un viaje registrado con ese nombre de producto'
         //     });
         // }
-
         const trip = await Trip.create(body);
 
         await trip.save();

@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const db = require('../../config/db');
 const User = require('./user');
 const Vehicle = require('./vehicles');
+const Client = require('./client');
 
 const Trips = db.define('viajes', {
     id: {
@@ -48,8 +49,12 @@ const Trips = db.define('viajes', {
     fechaViaje: {
         type: DataTypes.STRING
     },
-    cliente: {
-        type: DataTypes.STRING
+    clienteId: {
+        type: DataTypes.INTEGER,
+        references: {
+            model: Client,
+            key: 'id'
+        }
     },
     horaViaje: {
         type: DataTypes.STRING
@@ -79,6 +84,7 @@ const Trips = db.define('viajes', {
 });
 
 Trips.belongsTo(User, { foreignKey: 'conductorId', targetKey: 'id' });
+Trips.belongsTo(Client, { foreignKey: 'clienteId', targetKey: 'id' });
 Trips.belongsTo(Vehicle, { foreignKey: 'vehiculoId', targetKey: 'id' });
 
 module.exports = Trips
