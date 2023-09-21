@@ -3,7 +3,7 @@ const Trip = require('../models/trips');
 const User = require('../models/user');
 const Vehicle = require('../models/vehicles');
 
-const getTrips = async(req, res) => {
+const getTrips = async (req, res) => {
     try {
         const trips = await Trip.findAll({
             include: [
@@ -39,7 +39,7 @@ const getTrips = async(req, res) => {
     }
 }
 
-const getOneTrip = async(req, res) => {
+const getOneTrip = async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -78,7 +78,7 @@ const getOneTrip = async(req, res) => {
 }
 
 
-const createTrip = async(req, res) => {
+const createTrip = async (req, res) => {
     const { body } = req;
 
     try {
@@ -111,7 +111,7 @@ const createTrip = async(req, res) => {
     }
 }
 
-const updateTrip = async(req, res) => {
+const updateTrip = async (req, res) => {
     const { id } = req.params;
     const { body } = req;
 
@@ -147,7 +147,7 @@ const updateTrip = async(req, res) => {
     }
 }
 
-const deleteTrip = async(req, res) => {
+const deleteTrip = async (req, res) => {
     const { id } = req.params;
 
 
