@@ -24,6 +24,9 @@ const Company = db.define('companias', {
     duenoPoliza: {
         type: DataTypes.STRING
     },
+    hojaVida:{
+        type: DataTypes.STRING
+    },
     estado: {
         type: DataTypes.BOOLEAN,
         defaultValue: true
