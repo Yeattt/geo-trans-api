@@ -56,6 +56,8 @@ const downloadFile = async (req, res) => {
       mimeType = 'image/jpeg';
     } else if (fileExtension === '.png') {
       mimeType = 'image/png';
+    }else if (fileExtension === '.xlsx') {
+      mimeType = 'application/excel';
     }
 
     res.setHeader('Content-Type', mimeType);

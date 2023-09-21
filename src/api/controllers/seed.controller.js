@@ -84,11 +84,12 @@ const seedDB = async(req, res) => {
         await role.save();
 
         const company = await Company.create({
-            nit: 1010101010,
-            razonSocial: "si",
-            nombreEmpresa: "Gangsta INC",
+            nit: 101010101,
+            razonSocial: "Almacenes Exito",
+            nombreEmpresa: "Exito",
             telefono: 2020202020,
-            duenoPoliza: "yo"
+            duenoPoliza: "EMP",
+            hojaVida: "si"
         });
 
         await company.save();
@@ -96,7 +97,7 @@ const seedDB = async(req, res) => {
         const client = await Client.create({
             documento: 1010101010,
             nombre: 'Jefferson',
-            razonSocial: 'si',
+            razonSocial: 'Coperativa Colanta',
             telefono: 3333333333
         });
 
@@ -106,7 +107,7 @@ const seedDB = async(req, res) => {
 
         const user = await User.create({
             documento: 1010101010,
-            edad: 12,
+            edad: 28,
             email: 'carti@gmail.com',
             contrasena: encryptedPass,
             roleId: 1,
